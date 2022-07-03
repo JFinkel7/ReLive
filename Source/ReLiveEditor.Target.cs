@@ -5,8 +5,7 @@ using System.Collections.Generic;
 
 public class ReLiveEditorTarget : TargetRules
 {
-	public ReLiveEditorTarget( TargetInfo Target) : base(Target)
-	{
+	public ReLiveEditorTarget( TargetInfo Target) : base(Target){
 		Type = TargetType.Editor;
 		DefaultBuildSettings = BuildSettingsVersion.V2;
 		ExtraModuleNames.AddRange( new string[] { "ReLive" } );

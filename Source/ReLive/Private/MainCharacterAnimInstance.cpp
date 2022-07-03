@@ -12,6 +12,6 @@ void UMainCharacterAnimInstance::NativeUpdateAnimation(float DeltaSeconds) {
         //Update our movement speed
         Speed = HOST->GetVelocity().Size();
         const FRotator roatation = HOST->GetActorRotation();
-        Direction = Super::CalculateDirection((FVector)Speed, roatation);
+        Direction = UKismetAnimationLibrary::CalculateDirection((FVector)Speed, roatation);
     }
 }

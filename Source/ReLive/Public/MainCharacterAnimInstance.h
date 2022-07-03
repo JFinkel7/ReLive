@@ -2,9 +2,10 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
-#include "Animation/AnimInstance.h"
-#include "GameFramework/PawnMovementComponent.h"
+#include "CoreMinimal.h"  // (REQUIRED)
+#include "Animation/AnimInstance.h"  // (REQUIRED)
+#include "KismetAnimationLibrary.h" // (REQUIRED)
+#include "GameFramework/PawnMovementComponent.h"  // (REQUIRED)
 #include "MainCharacterAnimInstance.generated.h"
 
 /**

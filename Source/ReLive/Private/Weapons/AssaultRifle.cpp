@@ -7,26 +7,33 @@
 AAssaultRifle::AAssaultRifle() {
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
-	SkeletalMeshComponent = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("SkeletalMesh"));
-	SkeletalMeshComponent->SetupAttachment(RootComponent);
-	SkeletalMeshComponent->SetGenerateOverlapEvents(true);
-	SkeletalMeshComponent->SetNotifyRigidBodyCollision(false);
+	StaticMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("SkeletalMesh"));
+	StaticMeshComponent->SetupAttachment(RootComponent);
+	StaticMeshComponent->SetCollisionProfileName("Pickup");
+	StaticMeshComponent->SetGenerateOverlapEvents(true);
+	StaticMeshComponent->SetNotifyRigidBodyCollision(false);
+
+	static ConstructorHelpers::FObjectFinder<UStaticMesh>mesh(TEXT("/Game/Weapons/Rifle/Assault_Rifle_ASM.Assault_Rifle_ASM"));
+	if (mesh.Succeeded()) 
+		StaticMeshComponent->SetStaticMesh(mesh.Object);
+		
+
+	
+
 }
 
 // Called when the game starts or when spawned
 void AAssaultRifle::BeginPlay() {
 	Super::BeginPlay();
-
-
-	struct FStreamableManager& AssetLoader = UAssetManager::GetStreamableManager();
-	class USkeletalMesh* SkeletalAsset = AssetLoader.LoadSynchronous<USkeletalMesh>(FSoftObjectPath(TEXT("/Game/MilitaryWeapSilver/Weapons/Assault_Rifle_A.Assault_Rifle_A")), true); // - Game/MilitaryWeapSilver/Weapons/Assault_Rifle_A.Assault_Rifle_A
-	if (SkeletalAsset != NULL) {
-		SkeletalMeshComponent->SetSkeletalMesh(SkeletalAsset, false);
-		Super::OnActorBeginOverlap.AddDynamic(this, &AAssaultRifle::OnOverLapStart);
-	}
-
-
-
+	//struct FStreamableManager& AssetLoader = UAssetManager::GetStreamableManager();
+	//class UStaticMesh* StaticMesh = AssetLoader.LoadSynchronous<UStaticMesh>(FSoftObjectPath(TEXT("/Game/Weapons/Rifle/Assault_Rifle_ASM.Assault_Rifle_ASM")), true); // - Game/MilitaryWeapSilver/Weapons/Assault_Rifle_A.Assault_Rifle_A
+	//if (StaticMesh != NULL) {
+	//	//bool isLoaded = 
+	//	StaticMeshComponent->SetStaticMesh(StaticMesh);
+	//	//if(isLoaded)
+	//	Super::OnActorBeginOverlap.AddDynamic(this, &AAssaultRifle::OnOverLapStart);
+	//}
+	OnActorBeginOverlap.AddDynamic(this, &AAssaultRifle::OnOverLapStart);
 }
 
 void AAssaultRifle::OnOverLapStart(class AActor* ThisActor, class AActor* OtherActor) {

@@ -16,8 +16,9 @@ UCLASS()
 class RELIVE_API AAssaultRifle : public AActor {
 	GENERATED_BODY()
 
-		UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Projectile, meta = (AllowPrivateAccess = "true"))
-		class USkeletalMeshComponent* SkeletalMeshComponent;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Rifle, meta = (AllowPrivateAccess = "true"))
+	class UStaticMeshComponent* StaticMeshComponent;
+
 public:
 	// Sets default values for this actor's properties
 	AAssaultRifle();
@@ -27,7 +28,7 @@ protected:
 	virtual void BeginPlay() override;
 
 	UFUNCTION()
-		void OnOverLapStart(class AActor* ThisActor, class AActor* OtherActor);
+	void OnOverLapStart(class AActor* ThisActor, class AActor* OtherActor);
 
 public:
 	// Called every frame
