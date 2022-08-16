@@ -12,7 +12,8 @@ AAssaultRifle::AAssaultRifle() {
 	StaticMeshComponent->SetCollisionProfileName("Pickup");
 	StaticMeshComponent->SetGenerateOverlapEvents(true);
 	StaticMeshComponent->SetNotifyRigidBodyCollision(false);
-
+	// /Game/StarterContent/Shapes/Shape_Cube.Shape_Cube
+	// /Game/Weapons/Rifle/Assault_Rifle_ASM.Assault_Rifle_ASM
 	static ConstructorHelpers::FObjectFinder<UStaticMesh>mesh(TEXT("/Game/Weapons/Rifle/Assault_Rifle_ASM.Assault_Rifle_ASM"));
 	if (mesh.Succeeded()) 
 		StaticMeshComponent->SetStaticMesh(mesh.Object);
@@ -21,6 +22,13 @@ AAssaultRifle::AAssaultRifle() {
 	
 
 }
+
+void AAssaultRifle::OnOverLapStart(class AActor* ThisActor, class AActor* OtherActor) {
+	if (OtherActor && (OtherActor != this))
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Actor STARTED"));
+
+}
+
 
 // Called when the game starts or when spawned
 void AAssaultRifle::BeginPlay() {
@@ -36,11 +44,6 @@ void AAssaultRifle::BeginPlay() {
 	OnActorBeginOverlap.AddDynamic(this, &AAssaultRifle::OnOverLapStart);
 }
 
-void AAssaultRifle::OnOverLapStart(class AActor* ThisActor, class AActor* OtherActor) {
-	if (OtherActor && (OtherActor != this))
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Actor STARTED"));
-
-}
 
 // Called every frame
 void AAssaultRifle::Tick(float DeltaTime) {

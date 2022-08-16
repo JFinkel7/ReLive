@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "MainCharacterAnimInstance.h"
+#include "Animations/MainCharacterAnimInstance.h"
 
 void UMainCharacterAnimInstance::NativeUpdateAnimation(float DeltaSeconds) {
     Super::NativeUpdateAnimation(DeltaSeconds);
@@ -9,6 +9,7 @@ void UMainCharacterAnimInstance::NativeUpdateAnimation(float DeltaSeconds) {
     if (HOST != NULL) {
         //Update our falling property
         IsFalling = HOST->GetMovementComponent()->IsFalling();
+
         //Update our movement speed
         Speed = HOST->GetVelocity().Size();
         const FRotator roatation = HOST->GetActorRotation();

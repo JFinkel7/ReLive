@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
-#include "MainCharacter.h"
+#include "Character/MainCharacter.h"
 #include "MainGameModeBase.generated.h"
 
 /**

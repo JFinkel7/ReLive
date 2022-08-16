@@ -1,11 +1,14 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "MainCharacter.h"
+#include "Character/MainCharacter.h"
+
+//	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Working = TRUE"));
+
 
 // Sets default values
-AMainCharacter::AMainCharacter(){
- 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+AMainCharacter::AMainCharacter() {
+	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	// ------ [Collision Capsule] ------
 	GetCapsuleComponent()->InitCapsuleSize(32.0f, 96.0f);
@@ -43,15 +46,17 @@ AMainCharacter::AMainCharacter(){
 	GetMesh()->SetNotifyRigidBodyCollision(false);
 
 	// ------ [Movement Component] ------
-	GetCharacterMovement()->MaxWalkSpeed = 300; // Walk Speed = 300.0f Job Speed = 600.0f
+	GetCharacterMovement()->MaxWalkSpeed = 900; // Walk Speed = 300.0f Job Speed = 600.0f
 	GetCharacterMovement()->bCanWalkOffLedges = false;
 	GetCharacterMovement()->bOrientRotationToMovement = true;
 	GetCharacterMovement()->bUseControllerDesiredRotation = true;
+	GetCharacterMovement()->JumpZVelocity = 2;
+	GetCharacterMovement()->bApplyGravityWhileJumping = true;
 	GetCharacterMovement()->bIgnoreBaseRotation = true;
 }
 
 // Called when the game starts or when spawned
-void AMainCharacter::BeginPlay(){
+void AMainCharacter::BeginPlay() {
 	Super::BeginPlay();
 	if (GetMesh() != NULL) {
 		FStreamableManager& AssetLoader = UAssetManager::GetStreamableManager();
@@ -66,11 +71,10 @@ void AMainCharacter::BeginPlay(){
 				GetMesh()->SetAnimInstanceClass(MainAnimation->GetAnimBlueprintGeneratedClass());
 		}
 	}
-
 }
 
 // Called every frame
-void AMainCharacter::Tick(float DeltaTime){
+void AMainCharacter::Tick(float DeltaTime) {
 	Super::Tick(DeltaTime);
 
 }
@@ -83,8 +87,11 @@ void AMainCharacter::moveForward(float Val) {
 		// Get forward vector
 		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
 		AddMovementInput(Direction, Val);
+
 	}
 }
+
+
 
 void AMainCharacter::moveRight(float Val) {
 	if ((Controller != nullptr) && (Val != 0.0f)) {
@@ -106,6 +113,19 @@ void AMainCharacter::lookUpRate(float Rate) {
 	AddControllerPitchInput(Rate * (45.0f) * GetWorld()->GetDeltaSeconds()); // BaseLoopUpRate = 45.0f
 }
 
+
+void AMainCharacter::teleport() {
+	// - Teleports the player to the center of the map 0,0
+
+	const FVector CURRENT_LOCATION = (Super::GetActorForwardVector() * 750.0f) + Super::GetActorLocation();
+	const FRotator CURRENT_ROTATION = Super::GetActorRotation();
+
+	Super::TeleportTo(CURRENT_LOCATION, CURRENT_ROTATION);
+
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Working = TRUE"));
+}
+
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void AMainCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
@@ -113,6 +133,9 @@ void AMainCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInpu
 
 	// ---------------- Basic Key Binding Movement Events ----------------
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &AMainCharacter::Jump);
+	PlayerInputComponent->BindAction("teleport", IE_Pressed, this, &AMainCharacter::teleport);
+
+
 	PlayerInputComponent->BindAxis("MoveForward", this, &AMainCharacter::moveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &AMainCharacter::moveRight);
 	PlayerInputComponent->BindAxis("Turn", this, &APawn::AddControllerYawInput);

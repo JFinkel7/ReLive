@@ -10,6 +10,8 @@ public class ReLive : ModuleRules
 	
 		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore" });
 
+		PrivateDependencyModuleNames.AddRange(new string[] { "AIModule", "GameplayTasks", "NavigationSystem", "UMG", "Slate", "SlateCore" });
+
 		PrivateDependencyModuleNames.AddRange(new string[] { "AnimGraphRuntime"});
 
 		// Uncomment if you are using Slate UI

@@ -63,4 +63,9 @@ private:
 	//! @note: Calculate delta for this frame from the rate information
 	void lookUpRate(float Rate);
 
+
+private:
+	//! @brief: Teleports the player
+	void teleport();
+
 };
