@@ -19,9 +19,9 @@
 
 
 UCLASS()
-class RELIVE_API AMainCharacter : public ACharacter{
+class RELIVE_API AMainCharacter : public ACharacter {
 	GENERATED_BODY()
-	
+
 	//! @brief: Camera boom positioning the camera behind the character	(pulls in towards the player if there is a collision)
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	class USpringArmComponent* CameraBoom;
@@ -30,20 +30,20 @@ class RELIVE_API AMainCharacter : public ACharacter{
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	class UCameraComponent* FollowCamera;
 
-	
+
 public:
-	// Sets default values for this character's properties
+	//! @brief: Sets default values for this character's properties
 	AMainCharacter();
 
 protected:
-	// Called when the game starts or when spawned
+	//! @brief: Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	
-	// Called every frame
+public:
+	//! @brief: Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	// Called to bind functionality to input
+	//! @brief: Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 private:
@@ -65,7 +65,8 @@ private:
 
 
 private:
-	//! @brief: Teleports the player
+	//! @brief: Teleports the player 750m in the direction he is facing 
+	//! @note: Action ability
 	void teleport();
 
 };

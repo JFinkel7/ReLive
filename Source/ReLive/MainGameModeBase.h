@@ -4,7 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
-#include "Character/MainCharacter.h"
+#include "Character/MainCharacter.h" // (REQUIRED)
+#include "Weapons/AssaultRifle.h" // (ADDED)
 #include "MainGameModeBase.generated.h"
 
 /**
@@ -17,5 +18,11 @@ class RELIVE_API AMainGameModeBase : public AGameModeBase{
 
 public:
 	AMainGameModeBase();
+
+
+	//! @brief: start play is called when the game is called
+	//! @note: when the game starts it will spawn a rifle 
+	virtual void StartPlay() override;
+	
 	
 };

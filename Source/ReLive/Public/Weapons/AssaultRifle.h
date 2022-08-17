@@ -2,12 +2,14 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
-#include "GameFramework/Actor.h"
-#include "Components/SphereComponent.h"
+#include "CoreMinimal.h" // (REQUIRED)
+#include "GameFramework/Actor.h" // (REQUIRED)
+#include "GameFramework/Character.h" // (REQUIRED)
+#include "Engine/SkeletalMeshSocket.h" // (REQUIRED)
 #include "UObject/SoftObjectPath.h"
 #include "Engine/StreamableManager.h"
 #include "Engine/AssetManager.h"
+#include "HeadMountedDisplayFunctionLibrary.h"
 #include "DrawDebugHelpers.h"
 #include "Components/SkeletalMeshComponent.h" // Rifle Skeletal Mesh (REQUIRED)
 #include "AssaultRifle.generated.h"
@@ -20,18 +22,22 @@ class RELIVE_API AAssaultRifle : public AActor {
 	class UStaticMeshComponent* StaticMeshComponent;
 
 public:
-	// Sets default values for this actor's properties
+	//! @brief: Sets default values for this actor's properties
+	//! @note: Loads static mesh visuals on component created
 	AAssaultRifle();
 
 protected:
-	// Called when the game starts or when spawned
+	//! @brief: Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	//! @brief: Called when the main player overlaps this weapon 
 	UFUNCTION()
-	void OnOverLapStart(class AActor* ThisActor, class AActor* OtherActor);
+		void OnOverLapStart(class AActor* ThisActor, class AActor* OtherActor);
+
+
 
 public:
-	// Called every frame
+	//! @brief: Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 };

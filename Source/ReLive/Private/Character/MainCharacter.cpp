@@ -9,11 +9,11 @@
 // Sets default values
 AMainCharacter::AMainCharacter() {
 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
 	// ------ [Collision Capsule] ------
 	GetCapsuleComponent()->InitCapsuleSize(32.0f, 96.0f);
 	GetCapsuleComponent()->SetCollisionProfileName("Hero");
-	GetCapsuleComponent()->SetGenerateOverlapEvents(true); // Turn On for (Overlap Events)
+	GetCapsuleComponent()->SetGenerateOverlapEvents(true); // Turn On (Overlap Events)
 	GetCapsuleComponent()->SetNotifyRigidBodyCollision(false);
 
 	// set our turn rates for input
@@ -115,14 +115,11 @@ void AMainCharacter::lookUpRate(float Rate) {
 
 
 void AMainCharacter::teleport() {
-	// - Teleports the player to the center of the map 0,0
-
 	const FVector CURRENT_LOCATION = (Super::GetActorForwardVector() * 750.0f) + Super::GetActorLocation();
 	const FRotator CURRENT_ROTATION = Super::GetActorRotation();
 
-	Super::TeleportTo(CURRENT_LOCATION, CURRENT_ROTATION);
+	Super::TeleportTo(CURRENT_LOCATION, CURRENT_ROTATION, false, true);
 
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Working = TRUE"));
 }
 
 
@@ -131,11 +128,11 @@ void AMainCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInpu
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 	check(PlayerInputComponent);
 
-	// ---------------- Basic Key Binding Movement Events ----------------
+	// ---------------- [Action] Key Binding Movement Events
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &AMainCharacter::Jump);
 	PlayerInputComponent->BindAction("teleport", IE_Pressed, this, &AMainCharacter::teleport);
 
-
+	// ---------------- [Axis] Key Binding Movement Events
 	PlayerInputComponent->BindAxis("MoveForward", this, &AMainCharacter::moveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &AMainCharacter::moveRight);
 	PlayerInputComponent->BindAxis("Turn", this, &APawn::AddControllerYawInput);

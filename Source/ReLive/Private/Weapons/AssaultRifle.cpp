@@ -8,25 +8,35 @@ AAssaultRifle::AAssaultRifle() {
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
 	StaticMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("SkeletalMesh"));
-	StaticMeshComponent->SetupAttachment(RootComponent);
 	StaticMeshComponent->SetCollisionProfileName("Pickup");
-	StaticMeshComponent->SetGenerateOverlapEvents(true);
+	StaticMeshComponent->SetGenerateOverlapEvents(true); // Turn ON (Overlap Events)
 	StaticMeshComponent->SetNotifyRigidBodyCollision(false);
-	// /Game/StarterContent/Shapes/Shape_Cube.Shape_Cube
-	// /Game/Weapons/Rifle/Assault_Rifle_ASM.Assault_Rifle_ASM
-	static ConstructorHelpers::FObjectFinder<UStaticMesh>mesh(TEXT("/Game/Weapons/Rifle/Assault_Rifle_ASM.Assault_Rifle_ASM"));
-	if (mesh.Succeeded()) 
-		StaticMeshComponent->SetStaticMesh(mesh.Object);
-		
 
-	
+	static ConstructorHelpers::FObjectFinder<UStaticMesh>mesh(TEXT("/Game/Weapons/Rifle/Assault_Rifle_SM.Assault_Rifle_SM"));
+	if (mesh.Succeeded()) {
+		StaticMeshComponent->SetStaticMesh(mesh.Object);
+		RootComponent = StaticMeshComponent;
+	}
 
 }
 
 void AAssaultRifle::OnOverLapStart(class AActor* ThisActor, class AActor* OtherActor) {
-	if (OtherActor && (OtherActor != this))
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Actor STARTED"));
+	if (OtherActor && (OtherActor != this)) {
+		//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Orange, FString::Printf(TEXT("You Hit: %s"), *ThisActor->GetName()));
+		//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Orange, FString::Printf(TEXT("Who Hit Me?: %s"), *OtherActor->GetName()));
+		class ACharacter* MAIN_CHARACTER = Cast<ACharacter>(OtherActor);
 
+		if (MAIN_CHARACTER != NULL) {
+			USkeletalMeshComponent* mesh = MAIN_CHARACTER->GetMesh();
+			if (mesh != NULL) {
+				const FName SOCKET = TEXT("hand_r");//  middle_03_r	
+				const FRotator new_rotation = FRotator(90, 90, 0);
+				ThisActor->SetActorRotation(new_rotation, ETeleportType::TeleportPhysics);
+				ThisActor->AttachToComponent(mesh, FAttachmentTransformRules::SnapToTargetIncludingScale, SOCKET);
+				StaticMeshComponent->SetGenerateOverlapEvents(false); // Turn OFF (Overlap Events)
+			}
+		}
+	}
 }
 
 
@@ -34,20 +44,26 @@ void AAssaultRifle::OnOverLapStart(class AActor* ThisActor, class AActor* OtherA
 void AAssaultRifle::BeginPlay() {
 	Super::BeginPlay();
 	//struct FStreamableManager& AssetLoader = UAssetManager::GetStreamableManager();
-	//class UStaticMesh* StaticMesh = AssetLoader.LoadSynchronous<UStaticMesh>(FSoftObjectPath(TEXT("/Game/Weapons/Rifle/Assault_Rifle_ASM.Assault_Rifle_ASM")), true); // - Game/MilitaryWeapSilver/Weapons/Assault_Rifle_A.Assault_Rifle_A
+	//class UStaticMesh* StaticMesh = AssetLoader.LoadSynchronous<UStaticMesh>(FSoftObjectPath(TEXT("/Game/Weapons/Rifle/Assault_Rifle_SM.Assault_Rifle_SM")), true); // - Game/MilitaryWeapSilver/Weapons/Assault_Rifle_A.Assault_Rifle_A
 	//if (StaticMesh != NULL) {
-	//	//bool isLoaded = 
-	//	StaticMeshComponent->SetStaticMesh(StaticMesh);
-	//	//if(isLoaded)
-	//	Super::OnActorBeginOverlap.AddDynamic(this, &AAssaultRifle::OnOverLapStart);
+		//bool isLoaded = StaticMeshComponent->SetStaticMesh(StaticMesh);
+		//if (isLoaded) {	
+			//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Orange, TEXT("LOADED"));
+			OnActorBeginOverlap.AddUniqueDynamic(this, &AAssaultRifle::OnOverLapStart);
+		//}
 	//}
-	OnActorBeginOverlap.AddDynamic(this, &AAssaultRifle::OnOverLapStart);
 }
 
 
 // Called every frame
 void AAssaultRifle::Tick(float DeltaTime) {
 	Super::Tick(DeltaTime);
+	//FRotator currentR = this->GetActorRotation();
+	//float speed = DeltaTime * 50.0f;
 
+	//currentR.Yaw += speed;
+	//currentR.Roll += speed;
+	//currentR.Pitch -= speed;
+	//this->SetActorRotation(currentR);
 }
 
