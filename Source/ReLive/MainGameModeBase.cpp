@@ -15,10 +15,6 @@ AMainGameModeBase::AMainGameModeBase() {
 void AMainGameModeBase::StartPlay() {
 	Super::StartPlay();
 
-	UWorld* const GAME_WORLD = Super::GetWorld();
-
-	if (GAME_WORLD != NULL)
-		GAME_WORLD->SpawnActor<AAssaultRifle>(FVector(0, 0, 0), FRotator(0, 0, 0)); // - Spawn AssaultRifle to the center of the map
 
 
 }

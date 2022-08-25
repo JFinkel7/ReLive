@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
 #include "Character/MainCharacter.h" // (REQUIRED)
-#include "Weapons/AssaultRifle.h" // (ADDED)
+//#include "Weapons/AssaultRifle.h" // (ADDED)
 #include "MainGameModeBase.generated.h"
 
 /**

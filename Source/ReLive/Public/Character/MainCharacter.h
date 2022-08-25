@@ -11,6 +11,7 @@
 #include "UObject/SoftObjectPath.h" // (REQUIRED)
 #include "Engine/StreamableManager.h" // (REQUIRED)
 #include "Engine/AssetManager.h" // (REQUIRED)
+#include "Projectile/BallisticProjectile.h"  // (REQUIRED)
 #include "DrawDebugHelpers.h"
 //----------------------
 #include "CoreMinimal.h"
@@ -30,7 +31,13 @@ class RELIVE_API AMainCharacter : public ACharacter {
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	class UCameraComponent* FollowCamera;
 
+	//! @brief: Weapon Skeletal Mesh
+	UPROPERTY(VisibleDefaultsOnly, Category = Weapon)
+	class USkeletalMeshComponent* Gun;
 
+	//! @brief: Muzzle Scene Component
+	UPROPERTY(VisibleDefaultsOnly, Category = Weapon)
+	class USceneComponent* ShootingLocation;
 public:
 	//! @brief: Sets default values for this character's properties
 	AMainCharacter();
@@ -69,4 +76,8 @@ private:
 	//! @note: Action ability
 	void teleport();
 
+
+	//! @brief: Shoots a projectile if a weapon is equiped 
+	//! @note: Action ability
+	void fire();
 };

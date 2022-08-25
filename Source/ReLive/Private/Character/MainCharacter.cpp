@@ -53,6 +53,18 @@ AMainCharacter::AMainCharacter() {
 	GetCharacterMovement()->JumpZVelocity = 2;
 	GetCharacterMovement()->bApplyGravityWhileJumping = true;
 	GetCharacterMovement()->bIgnoreBaseRotation = true;
+
+	// ------ [GUN Component] ------
+	Gun = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Gun"));
+	Gun->SetOnlyOwnerSee(false); // otherwise won't be visible in the multiplayer
+	Gun->bCastDynamicShadow = false;
+	Gun->CastShadow = false;
+	
+
+	// ------ [Muzzle Flash Component] ------
+	ShootingLocation = CreateDefaultSubobject<USceneComponent>(TEXT("MuzzleLocation"));
+	ShootingLocation->SetupAttachment(Gun);
+	ShootingLocation->SetRelativeLocationAndRotation(Gun->GetRelativeLocation(), FRotator(180,0,0));
 }
 
 // Called when the game starts or when spawned
@@ -69,6 +81,17 @@ void AMainCharacter::BeginPlay() {
 			GetMesh()->SetSkeletalMesh(SkeletalAsset, false);
 			if (MainAnimation != NULL)
 				GetMesh()->SetAnimInstanceClass(MainAnimation->GetAnimBlueprintGeneratedClass());
+		}
+	
+		// Loads Assault Rifle Then Attaches it to the character hand
+
+		class USkeletalMesh* GunSkeletalAsset = AssetLoader.LoadSynchronous<USkeletalMesh>(FSoftObjectPath(TEXT("/Game/Weapons/Rifle/Assault_Rifle_A.Assault_Rifle_A")), true);
+		if (GunSkeletalAsset != NULL) {
+			Gun->SetSkeletalMesh(GunSkeletalAsset);
+			const FName SOCKET = TEXT("hand_r");//  middle_03_r	
+			Gun->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetIncludingScale, SOCKET);
+			Gun->SetRelativeRotation(FRotator(0.0f, 0.0f, -90.0f));
+			//Gun->SetupAttachment(GetMesh(), FName(TEXT("hand_r")));		
 		}
 	}
 }
@@ -113,7 +136,7 @@ void AMainCharacter::lookUpRate(float Rate) {
 	AddControllerPitchInput(Rate * (45.0f) * GetWorld()->GetDeltaSeconds()); // BaseLoopUpRate = 45.0f
 }
 
-
+//==================================================[ACTIONS]==================================================
 void AMainCharacter::teleport() {
 	const FVector CURRENT_LOCATION = (Super::GetActorForwardVector() * 750.0f) + Super::GetActorLocation();
 	const FRotator CURRENT_ROTATION = Super::GetActorRotation();
@@ -123,6 +146,19 @@ void AMainCharacter::teleport() {
 }
 
 
+void AMainCharacter::fire() {
+	class UWorld* const WORLD = Super::GetWorld();
+	if (WORLD != nullptr) {
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Shot Fired"));
+		struct FActorSpawnParameters ActorSpawnParams;
+		ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
+		const FVector SPAWN_LOCATION = ShootingLocation->GetComponentLocation();
+		const FRotator SPAWN_ROTATION = ShootingLocation->GetComponentRotation();
+		WORLD->SpawnActor<ABallisticProjectile>(SPAWN_LOCATION, SPAWN_ROTATION, ActorSpawnParams);
+
+	}
+}
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void AMainCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
@@ -130,8 +166,8 @@ void AMainCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInpu
 
 	// ---------------- [Action] Key Binding Movement Events
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &AMainCharacter::Jump);
-	PlayerInputComponent->BindAction("teleport", IE_Pressed, this, &AMainCharacter::teleport);
-
+	PlayerInputComponent->BindAction("Teleport", IE_Pressed, this, &AMainCharacter::teleport);
+	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &AMainCharacter::fire);
 	// ---------------- [Axis] Key Binding Movement Events
 	PlayerInputComponent->BindAxis("MoveForward", this, &AMainCharacter::moveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &AMainCharacter::moveRight);
