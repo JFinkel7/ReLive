@@ -88,10 +88,9 @@ void AMainCharacter::BeginPlay() {
 		class USkeletalMesh* GunSkeletalAsset = AssetLoader.LoadSynchronous<USkeletalMesh>(FSoftObjectPath(TEXT("/Game/Weapons/Rifle/Assault_Rifle_A.Assault_Rifle_A")), true);
 		if (GunSkeletalAsset != NULL) {
 			Gun->SetSkeletalMesh(GunSkeletalAsset);
-			const FName SOCKET = TEXT("hand_r");//  middle_03_r	
+			const FName SOCKET = TEXT("hand_r");
 			Gun->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetIncludingScale, SOCKET);
-			Gun->SetRelativeRotation(FRotator(0.0f, 0.0f, -90.0f));
-			//Gun->SetupAttachment(GetMesh(), FName(TEXT("hand_r")));		
+			Gun->SetRelativeRotation(FRotator(0.0f, 0.0f, -90.0f));	
 		}
 	}
 }
@@ -140,7 +139,6 @@ void AMainCharacter::lookUpRate(float Rate) {
 void AMainCharacter::teleport() {
 	const FVector CURRENT_LOCATION = (Super::GetActorForwardVector() * 750.0f) + Super::GetActorLocation();
 	const FRotator CURRENT_ROTATION = Super::GetActorRotation();
-
 	Super::TeleportTo(CURRENT_LOCATION, CURRENT_ROTATION, false, true);
 
 }

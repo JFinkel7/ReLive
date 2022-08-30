@@ -12,6 +12,7 @@
 #include "Engine/StreamableManager.h" // (REQUIRED)
 #include "Engine/AssetManager.h" // (REQUIRED)
 #include "Projectile/BallisticProjectile.h"  // (REQUIRED)
+
 #include "DrawDebugHelpers.h"
 //----------------------
 #include "CoreMinimal.h"
@@ -53,6 +54,10 @@ public:
 	//! @brief: Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+
+public:
+	TArray<class AActor*> assaultRiflePickups;
+
 private:
 	//! @brief: Sets Up Our Controller Input
 	void moveForward(float Val);
@@ -73,11 +78,17 @@ private:
 
 private:
 	//! @brief: Teleports the player 750m in the direction he is facing 
-	//! @note: Action ability
+	//! @note: [T] Key Action ability
 	void teleport();
 
 
 	//! @brief: Shoots a projectile if a weapon is equiped 
-	//! @note: Action ability
+	//! @note: [F] Key Action ability
 	void fire();
+
+	//! @brief: Toggles stored weapons that the player has overlapped or found
+	//! @note: [I] Key Action ability
+	void inventory();
+
+
 };
