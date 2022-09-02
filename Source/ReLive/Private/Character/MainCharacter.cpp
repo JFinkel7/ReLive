@@ -145,7 +145,7 @@ void AMainCharacter::teleport() {
 
 
 void AMainCharacter::fire() {
-	class UWorld* const WORLD = Super::GetWorld();
+	/*class UWorld* const WORLD = Super::GetWorld();
 	if (WORLD != nullptr) {
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Shot Fired"));
 		struct FActorSpawnParameters ActorSpawnParams;
@@ -154,7 +154,7 @@ void AMainCharacter::fire() {
 		const FRotator SPAWN_ROTATION = ShootingLocation->GetComponentRotation();
 		WORLD->SpawnActor<ABallisticProjectile>(SPAWN_LOCATION, SPAWN_ROTATION, ActorSpawnParams);
 
-	}
+	}*/
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -165,7 +165,7 @@ void AMainCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInpu
 	// ---------------- [Action] Key Binding Movement Events
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &AMainCharacter::Jump);
 	PlayerInputComponent->BindAction("Teleport", IE_Pressed, this, &AMainCharacter::teleport);
-	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &AMainCharacter::fire);
+	//PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &AMainCharacter::fire);
 	// ---------------- [Axis] Key Binding Movement Events
 	PlayerInputComponent->BindAxis("MoveForward", this, &AMainCharacter::moveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &AMainCharacter::moveRight);
