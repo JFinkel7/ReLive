@@ -11,8 +11,6 @@
 #include "UObject/SoftObjectPath.h" // (REQUIRED)
 #include "Engine/StreamableManager.h" // (REQUIRED)
 #include "Engine/AssetManager.h" // (REQUIRED)
-#include "Projectile/BallisticProjectile.h"  // (REQUIRED)
-
 #include "DrawDebugHelpers.h"
 //----------------------
 #include "CoreMinimal.h"
@@ -24,21 +22,14 @@ UCLASS()
 class RELIVE_API AMainCharacter : public ACharacter {
 	GENERATED_BODY()
 
-	//! @brief: Camera boom positioning the camera behind the character	(pulls in towards the player if there is a collision)
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-	class USpringArmComponent* CameraBoom;
+		//! @brief: Camera boom positioning the camera behind the character	(pulls in towards the player if there is a collision)
+		UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
+		class USpringArmComponent* CameraBoom;
 
 	//! @brief: Create a Follow Camera
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-	class UCameraComponent* FollowCamera;
+		class UCameraComponent* FollowCamera;
 
-	//! @brief: Weapon Skeletal Mesh
-	UPROPERTY(VisibleDefaultsOnly, Category = Weapon)
-	class USkeletalMeshComponent* Gun;
-
-	//! @brief: Muzzle Scene Component
-	UPROPERTY(VisibleDefaultsOnly, Category = Weapon)
-	class USceneComponent* ShootingLocation;
 public:
 	//! @brief: Sets default values for this character's properties
 	AMainCharacter();
@@ -53,10 +44,6 @@ public:
 
 	//! @brief: Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
-
-public:
-	TArray<class AActor*> assaultRiflePickups;
 
 private:
 	//! @brief: Sets Up Our Controller Input
@@ -80,15 +67,4 @@ private:
 	//! @brief: Teleports the player 750m in the direction he is facing 
 	//! @note: [T] Key Action ability
 	void teleport();
-
-
-	//! @brief: Shoots a projectile if a weapon is equiped 
-	//! @note: [F] Key Action ability
-	void fire();
-
-	//! @brief: Toggles stored weapons that the player has overlapped or found
-	//! @note: [I] Key Action ability
-	void inventory();
-
-
 };
