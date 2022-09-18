@@ -30,7 +30,8 @@ AAssaultRifle::AAssaultRifle() {
 	Gun->bReceivesDecals = false;
 	Gun->bOnlyOwnerSee = false; // otherwise won't be visible in the multiplayer
 	Gun->CastShadow = false;
-
+	// @test
+	GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Yellow, TEXT("[AAssaultRifle] CREATED = True"));
 }
 
 

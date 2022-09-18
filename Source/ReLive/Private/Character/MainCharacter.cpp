@@ -2,6 +2,7 @@
 
 
 #include "Character/MainCharacter.h"
+#include "Character/InventoryComponent.h"
 
 //GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Working = TRUE"));
 //GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Green, FString::Printf(TEXT("OWNER = %s"), *OtherActor->GetOwner()->GetName()));
@@ -54,6 +55,11 @@ AMainCharacter::AMainCharacter() {
 	GetCharacterMovement()->JumpZVelocity = 2;
 	GetCharacterMovement()->bApplyGravityWhileJumping = true;
 	GetCharacterMovement()->bIgnoreBaseRotation = true;
+
+
+	// ------ [Inventory Component] ------
+	class UInventoryComponent* Inventory = CreateDefaultSubobject<UInventoryComponent>(TEXT("InventoryComponent"));
+
 }
 
 // Called when the game starts or when spawned
@@ -122,6 +128,22 @@ void AMainCharacter::teleport() {
 }
 
 
+void AMainCharacter::inventory() {
+	const class USceneComponent* CHILD = GetMesh()->GetChildComponent(0); // Get the attatched parent component | Example a weapon
+	if (CHILD != NULL) {
+		class AActor* actor = Cast<AActor>(CHILD->GetOwner());
+		if (actor != NULL) {
+			Items.Add(actor); // Add Items
+			actor->Destroy(); // Destroy The Item 
+			//@test
+			/*for (AActor* a : Items) {
+				GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Orange, FString::Printf(TEXT("OWNER = %s"), *a->GetName()));
+			}*/
+		}
+	}
+}
+
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void AMainCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
@@ -130,6 +152,8 @@ void AMainCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInpu
 	// ---------------- [Action] Key Binding Movement Events
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &AMainCharacter::Jump);
 	PlayerInputComponent->BindAction("Teleport", IE_Pressed, this, &AMainCharacter::teleport);
+	//PlayerInputComponent->BindAction("Inventory", IE_Pressed, this, &AMainCharacter::inventory);
+
 	// ---------------- [Axis] Key Binding Movement Events
 	PlayerInputComponent->BindAxis("MoveForward", this, &AMainCharacter::moveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &AMainCharacter::moveRight);

@@ -23,7 +23,7 @@ class RELIVE_API AMainCharacter : public ACharacter {
 	GENERATED_BODY()
 
 		//! @brief: Camera boom positioning the camera behind the character	(pulls in towards the player if there is a collision)
-		UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 		class USpringArmComponent* CameraBoom;
 
 	//! @brief: Create a Follow Camera
@@ -64,7 +64,13 @@ private:
 
 
 private:
-	//! @brief: Teleports the player 750m in the direction he is facing 
-	//! @note: [T] Key Action ability
+	//! @brief: Teleports the player
+	//! @note: [T] Action Key
 	void teleport();
+
+	//! @brief: Holds any picked up items
+	//! @note: [I] Action Key
+	void inventory();
+
+	TArray<AActor*> Items;
 };
