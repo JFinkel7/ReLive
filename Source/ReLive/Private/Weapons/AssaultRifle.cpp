@@ -87,13 +87,14 @@ void AAssaultRifle::Equip(class AActor* OtherActor) {
 	if (CHARACTER != NULL) {
 		class USkeletalMeshComponent* mesh = CHARACTER->GetMesh(); // Get character mesh reference 
 		if (mesh != NULL) {
-			const FName SOCKET = TEXT("hand_r");// Bone Socket Name    	
+			const FName SOCKET = TEXT("hand_r");// Bone Socket Name 
+			const FRotator DIRECTION_OF_PLAYER = mesh->GetComponentRotation();
 			Super::AttachToComponent(mesh, FAttachmentTransformRules::SnapToTargetIncludingScale, SOCKET);
-			Super::SetActorRotation(FRotator(0.0f, 0.0f, -90.0f), ETeleportType::TeleportPhysics);
+			Super::SetActorRotation(DIRECTION_OF_PLAYER, ETeleportType::TeleportPhysics);
 
 			if (Super::InputComponent->HasBindings()) {// Check if this actor has any bindings  
 				// (OFF)  Overlap Events
-				Gun->SetGenerateOverlapEvents(false);
+				CollisionSphere->SetGenerateOverlapEvents(false);
 				// [E] key action binding removed 
 				Super::InputComponent->RemoveActionBinding(FName(TEXT("Equip")), EInputEvent::IE_Pressed);
 
@@ -114,10 +115,10 @@ void AAssaultRifle::Equip(class AActor* OtherActor) {
 void AAssaultRifle::UnEquip(class AActor* OtherActor) {
 	class APlayerController* Controller = Cast<APlayerController>(OtherActor->GetOwner());
 	if (Controller != NULL) {
-		AAssaultRifle::DetachFromActor(FDetachmentTransformRules::KeepRelativeTransform);// Detach this actor from the character 
-		const FVector Location = Controller->GetCharacter()->GetMesh()->GetBoneLocation(FName(TEXT("hand_r")), EBoneSpaces::Type::WorldSpace);
-		AAssaultRifle::SetActorLocation(Location);//  Set this actor near the character  
-		Gun->SetGenerateOverlapEvents(true); // (ON) Overlap Events 
+		Super::DetachFromActor(FDetachmentTransformRules::KeepRelativeTransform);// Detach this actor from the character 
+		const FVector BONE_LOCATION = Controller->GetCharacter()->GetMesh()->GetBoneLocation(FName(TEXT("hand_r")), EBoneSpaces::Type::WorldSpace);
+		Super::SetActorLocation(BONE_LOCATION);//  Set this actor near the character  
+		CollisionSphere->SetGenerateOverlapEvents(true); // (ON) Overlap Events 
 
 		if (Super::InputComponent->HasBindings()) {// Check if this actor has any bindings  
 			// [U] Key action binding removed
