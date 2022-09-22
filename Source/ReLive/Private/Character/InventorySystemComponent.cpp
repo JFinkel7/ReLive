@@ -1,10 +1,10 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "Character/InventoryComponent.h"
+#include "Character/InventorySystemComponent.h"
 //#include "Weapons/AssaultRifle.h"
 // Sets default values for this component's properties
-UInventoryComponent::UInventoryComponent() {
+UInventorySystemComponent::UInventorySystemComponent() {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = false;
@@ -13,7 +13,7 @@ UInventoryComponent::UInventoryComponent() {
 
 
 // Called when the game starts
-void UInventoryComponent::BeginPlay() {
+void UInventorySystemComponent::BeginPlay() {
 	Super::BeginPlay();
 	if (Super::HasBegunPlay()) {
 		class ACharacter* character = Cast<ACharacter>(GetOwner()); // Get the character who owns this component
@@ -22,15 +22,15 @@ void UInventoryComponent::BeginPlay() {
 			if (controller != NULL) {
 				character->EnableInput(controller);	// Enable Input
 				// [I] Key Action Binding Created 
-				FInputActionBinding& inventoryBinding = character->InputComponent->BindAction<FInputInventoryDelegate>(TEXT("Inventory"), IE_Pressed, this, &UInventoryComponent::AddToInventory, character);
+				FInputActionBinding& inventoryBinding = character->InputComponent->BindAction<FInputInventoryDelegate>(TEXT("Inventory"), IE_Pressed, this, &UInventorySystemComponent::AddToInventory, character);
 				// Consume the input
 				inventoryBinding.bConsumeInput = false;
 
 				// Message
-				GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("[UInventoryComponent] OWNER = %s"), *character->GetName()));
+				GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("[UInventorySystemComponent] OWNER = %s"), *character->GetName()));
 
 				// [I] Key Action Binding Created 
-				FInputActionBinding& toggleBinding = character->InputComponent->BindAction<FInputToggleDelegate>(TEXT("Toggle"), IE_Pressed, this, &UInventoryComponent::ToggleFromInventory, character);
+				FInputActionBinding& toggleBinding = character->InputComponent->BindAction<FInputToggleDelegate>(TEXT("Toggle"), IE_Pressed, this, &UInventorySystemComponent::ToggleFromInventory, character);
 				// Consume the input
 				toggleBinding.bConsumeInput = false;
 			}
@@ -39,7 +39,7 @@ void UInventoryComponent::BeginPlay() {
 }
 
 
-void UInventoryComponent::AddToInventory(ACharacter* OtherActor) {
+void UInventorySystemComponent::AddToInventory(ACharacter* OtherActor) {
 	if (OtherActor) {
 		const class UActorComponent* CHILD = OtherActor->GetMesh()->GetChildComponent(0); // Get the attatched parent component | Example a weapon
 		if (CHILD != NULL) {
@@ -60,7 +60,7 @@ void UInventoryComponent::AddToInventory(ACharacter* OtherActor) {
 	}
 }
 
-void UInventoryComponent::ToggleFromInventory(ACharacter* OtherActor) {
+void UInventorySystemComponent::ToggleFromInventory(ACharacter* OtherActor) {
 	if (OtherActor && Inventory.Num() >= 1) {// Check if there are items in the inventory array
 		class ACharacter* character = Cast<ACharacter>(OtherActor); // Get the character who owns this component
 		if (character) {
@@ -106,7 +106,7 @@ void UInventoryComponent::ToggleFromInventory(ACharacter* OtherActor) {
 
 
 // Called every frame
-void UInventoryComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) {
+void UInventorySystemComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("TRUE"));	
 	//				GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Green, FString::Printf(TEXT("Pressed = %d"), count));

@@ -15,6 +15,7 @@
 //----------------------
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "Character/AimSystemComponent.h" // AimSystemComponent
 #include "MainCharacter.generated.h"
 
 
@@ -37,6 +38,8 @@ public:
 protected:
 	//! @brief: Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+	//virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
 public:
 	//! @brief: Called every frame

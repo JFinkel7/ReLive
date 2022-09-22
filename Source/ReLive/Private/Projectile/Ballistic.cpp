@@ -14,7 +14,7 @@ ABallistic::ABallistic() {
 	// ------ [Static Mesh Component] ------
 	Material = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("StaticMeshMaterial"));
 	Material->SetupAttachment(RootComponent); // - Attatched to the Parent  
-	Material->SetWorldScale3D(FVector(0.4f, 0.4f, 0.4f)); // Size 
+	Material->SetWorldScale3D(FVector(0.4f, 0.4, 0.4)); // Size 
 	Material->SetCollisionProfileName(TEXT("Weapon"));// - Collision Profile 
 	Material->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics); // - Turn On Collision and Physics
 	Material->SetEnableGravity(true);// - (ON) Gravity

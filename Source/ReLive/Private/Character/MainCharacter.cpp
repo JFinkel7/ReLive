@@ -2,7 +2,7 @@
 
 
 #include "Character/MainCharacter.h"
-#include "Character/InventoryComponent.h"
+#include "Blueprint/UserWidget.h"
 
 //GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Working = TRUE"));
 //GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Green, FString::Printf(TEXT("OWNER = %s"), *OtherActor->GetOwner()->GetName()));
@@ -58,7 +58,11 @@ AMainCharacter::AMainCharacter() {
 
 
 	// ------ [Inventory Component] ------
-	class UInventoryComponent* Inventory = CreateDefaultSubobject<UInventoryComponent>(TEXT("InventoryComponent"));
+	 //#include "Character/InventoryComponent.h"
+	//class UInventoryComponent* Inventory = CreateDefaultSubobject<UInventoryComponent>(TEXT("InventoryComponent"));
+
+
+	// AimSystemComponent = CreateDefaultSubobject<UAimSystemComponent>(TEXT("UAimSystemComponent"));
 
 }
 
@@ -76,6 +80,12 @@ void AMainCharacter::BeginPlay() {
 			GetMesh()->SetSkeletalMesh(SkeletalAsset, false);
 			if (MainAnimation != NULL)
 				GetMesh()->SetAnimInstanceClass(MainAnimation->GetAnimBlueprintGeneratedClass());
+		}
+
+		// Adding Crosshair Widget to the player
+		class UAimSystemComponent * CrosshairWidget = CreateWidget<UAimSystemComponent>(GetWorld()->GetFirstPlayerController(), UAimSystemComponent::StaticClass());
+		if (CrosshairWidget != NULL) {
+			CrosshairWidget->AddToViewport();
 		}
 	}
 }

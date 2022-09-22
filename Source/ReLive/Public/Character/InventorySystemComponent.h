@@ -1,25 +1,21 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
-
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
-
-
-
 #include "GameFramework/PlayerController.h"
 #include "GameFramework/Character.h"
+#include "InventorySystemComponent.generated.h"
 
-#include "InventoryComponent.generated.h"
 DECLARE_DELEGATE_OneParam(FInputInventoryDelegate, class ACharacter* OtherActor);
 DECLARE_DELEGATE_OneParam(FInputToggleDelegate,    class ACharacter* OtherActor);
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class RELIVE_API UInventoryComponent : public UActorComponent{
+class RELIVE_API UInventorySystemComponent : public UActorComponent{
 	GENERATED_BODY()
 
 public:	
 	//! @brief: Sets default values for this component's properties
-	UInventoryComponent();
+	UInventorySystemComponent();
 
 protected:
 	//! @brief: Called when the game starts or when attached to the an actor 
