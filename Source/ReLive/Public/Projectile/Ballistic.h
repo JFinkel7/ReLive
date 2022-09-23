@@ -13,18 +13,20 @@ UCLASS()
 class RELIVE_API ABallistic : public AActor {
 	GENERATED_BODY()
 
+	//! @brief: Ballistic Static Mesh Component
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = StaticMesh, meta = (AllowPrivateAccess = "true"))
 		class UStaticMeshComponent* Material;
-
+	
+	//! @brief: Ballistic Projectile Movement Component
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Projectile, meta = (AllowPrivateAccess = "true"))
 		class UProjectileMovementComponent* ProjectileMovement;
 
 public:
-	// Sets default values for this actor's properties
+	//! @brief: Sets default values for this actor's properties
 	ABallistic();
 
 protected:
-	// Called when the game starts or when spawned
+	//! @brief: Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 

@@ -11,6 +11,7 @@
 #include "UObject/SoftObjectPath.h" // (REQUIRED)
 #include "Engine/StreamableManager.h" // (REQUIRED)
 #include "Engine/AssetManager.h" // (REQUIRED)
+#include "Templates/UniquePtr.h" // 
 #include "DrawDebugHelpers.h"
 //----------------------
 #include "CoreMinimal.h"
@@ -23,14 +24,17 @@ UCLASS()
 class RELIVE_API AMainCharacter : public ACharacter {
 	GENERATED_BODY()
 
-		//! @brief: Camera boom positioning the camera behind the character	(pulls in towards the player if there is a collision)
+	//! @brief: Camera boom positioning the camera behind the character	(pulls in towards the player if there is a collision)
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 		class USpringArmComponent* CameraBoom;
 
 	//! @brief: Create a Follow Camera
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 		class UCameraComponent* FollowCamera;
-
+	
+	//! @brief: Create a Crosshair UI 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
+		class UAimSystemComponent * CrosshairWidget;
 public:
 	//! @brief: Sets default values for this character's properties
 	AMainCharacter();
@@ -71,9 +75,6 @@ private:
 	//! @note: [T] Action Key
 	void teleport();
 
-	//! @brief: Holds any picked up items
-	//! @note: [I] Action Key
-	void inventory();
 
-	TArray<AActor*> Items;
+
 };

@@ -30,14 +30,14 @@ AAssaultRifle::AAssaultRifle() {
 	Gun->bReceivesDecals = false;
 	Gun->bOnlyOwnerSee = false; // otherwise won't be visible in the multiplayer
 	Gun->CastShadow = false;
-	// @test
-	GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Yellow, TEXT("[AAssaultRifle] CREATED = True"));
+	
 }
 
 
 // Called when the game starts or when spawned
 void AAssaultRifle::BeginPlay() {
 	Super::BeginPlay();
+	
 	FStreamableManager& AssetLoader = UAssetManager::GetStreamableManager(); // Create a Streamable Manager
 	USkeletalMesh* frame = AssetLoader.LoadSynchronous<USkeletalMesh>(FSoftObjectPath(TEXT("/Game/Weapons/Rifle/Assault_Rifle_A.Assault_Rifle_A")), true);
 	if (frame != NULL) {
@@ -47,6 +47,9 @@ void AAssaultRifle::BeginPlay() {
 			OnActorEndOverlap.AddDynamic(this, &AAssaultRifle::OnOverLapEnd); // Register OnOverlapEnd
 		}
 	}
+
+	// Message
+	GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Yellow, TEXT("[AAssaultRifle] SPAWNED = True"));
 }
 
 
@@ -137,12 +140,12 @@ void AAssaultRifle::UnEquip(class AActor* OtherActor) {
 void AAssaultRifle::Fire() {
 	GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Green, TEXT("FIRE IS CALLED"));
 	class UWorld* World = GetWorld();
-	if (World) {
-		const FVector Location = Gun->GetSocketLocation(FName(TEXT("MuzzleFlash"))); // Get The Gun Socket FName  Location 
+	if (World != NULL) {
+		const FVector Location  = Gun->GetSocketLocation(FName(TEXT("MuzzleFlash"))); // Get The Gun Socket FName  Location 
 		const FRotator Rotation = Gun->GetSocketRotation(FName(TEXT("MuzzleFlash"))); // Get The Gun Socket FName Rotation
 		struct FActorSpawnParameters ActorSpawnParams;
 		ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
-		// Spawns the projectile 
+		// Spawns the ballistic projectile 
 		World->SpawnActor<ABallistic>(Location, Rotation, ActorSpawnParams);
 	}
 }

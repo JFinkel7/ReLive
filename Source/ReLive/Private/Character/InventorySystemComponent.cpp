@@ -5,8 +5,6 @@
 //#include "Weapons/AssaultRifle.h"
 // Sets default values for this component's properties
 UInventorySystemComponent::UInventorySystemComponent() {
-	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
-	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = false;
 
 }
@@ -108,15 +106,4 @@ void UInventorySystemComponent::ToggleFromInventory(ACharacter* OtherActor) {
 // Called every frame
 void UInventorySystemComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("TRUE"));	
-	//				GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Green, FString::Printf(TEXT("Pressed = %d"), count));
-	//if (Inventory.Num() > 0) {// Check if Actor is Valid and the Inventory Array contains at least +1 Item 
-	//	class ACharacter* character = Cast<ACharacter>(GetOwner()); // Get the character who owns this component
-	//	if (character) {
-	//		class APlayerController* controller = Cast<APlayerController>(character->GetOwner());// Get The character's controller
-	//	
-	//	}
-
-	//}
-
 }

@@ -21,8 +21,6 @@ protected:
 	//! @brief: Called when the game starts or when attached to the an actor 
 	virtual void BeginPlay() override;
 
-	//virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
-
 public:	
 	//! @brief: Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;

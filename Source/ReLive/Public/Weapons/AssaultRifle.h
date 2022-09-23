@@ -20,26 +20,27 @@ DECLARE_DELEGATE(FInputFireDelegate);
 UCLASS()
 class RELIVE_API AAssaultRifle : public AActor {
 	GENERATED_BODY()
-
+	
+	//! @brief: The parent collision sphere the will wrap around this actor	
 	UPROPERTY(VisibleDefaultsOnly, Category = Collision)
 		class USphereComponent* CollisionSphere;
 
-
+	//! @brief: The child skeletal mesh will render the weapon visual mesh 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Rifle, meta = (AllowPrivateAccess = "true"))
 		class USkeletalMeshComponent* Gun;
 
 public:
 	//! @brief: Sets default values for this actor's properties
 	//! @note: Loads static mesh visuals on component created
-	//! @note: This class will typically be created when the player equips the weapon 
+	//! @note: This class will typically be created when the player equips the weapon or when it is spawned manually
 	AAssaultRifle();
 
 protected:
-	// Called when the game starts or when spawned
+	//! @brief: Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 	//! @brief: Called when the main player overlaps this actor
-	//! @note: Will add an action input binding
+	//! @note: Will have an action input binding
 	UFUNCTION()
 		void OnOverLapStart(class AActor* ThisActor, class AActor* OtherActor);
 

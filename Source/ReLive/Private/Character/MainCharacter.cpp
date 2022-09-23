@@ -2,7 +2,7 @@
 
 
 #include "Character/MainCharacter.h"
-#include "Blueprint/UserWidget.h"
+
 
 //GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Working = TRUE"));
 //GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Green, FString::Printf(TEXT("OWNER = %s"), *OtherActor->GetOwner()->GetName()));
@@ -14,7 +14,7 @@ AMainCharacter::AMainCharacter() {
 	PrimaryActorTick.bCanEverTick = false;
 	// ------ [Collision Capsule] ------
 	GetCapsuleComponent()->InitCapsuleSize(32.0f, 96.0f);
-	GetCapsuleComponent()->SetCollisionProfileName("Hero");
+	GetCapsuleComponent()->SetCollisionProfileName("Player");
 	GetCapsuleComponent()->SetGenerateOverlapEvents(true); // Turn On (Overlap Events)
 	GetCapsuleComponent()->SetNotifyRigidBodyCollision(false);
 
@@ -58,17 +58,15 @@ AMainCharacter::AMainCharacter() {
 
 
 	// ------ [Inventory Component] ------
-	 //#include "Character/InventoryComponent.h"
+	//#include "Character/InventoryComponent.h"
 	//class UInventoryComponent* Inventory = CreateDefaultSubobject<UInventoryComponent>(TEXT("InventoryComponent"));
-
-
-	// AimSystemComponent = CreateDefaultSubobject<UAimSystemComponent>(TEXT("UAimSystemComponent"));
 
 }
 
 // Called when the game starts or when spawned
 void AMainCharacter::BeginPlay() {
 	Super::BeginPlay();
+	// Adding Skeletal Mesh to the player and the Animation Blueprint
 	if (GetMesh() != NULL) {
 		FStreamableManager& AssetLoader = UAssetManager::GetStreamableManager();
 		// Loads T100 Skeletal Mesh
@@ -83,10 +81,18 @@ void AMainCharacter::BeginPlay() {
 		}
 
 		// Adding Crosshair Widget to the player
-		class UAimSystemComponent * CrosshairWidget = CreateWidget<UAimSystemComponent>(GetWorld()->GetFirstPlayerController(), UAimSystemComponent::StaticClass());
-		if (CrosshairWidget != NULL) {
-			CrosshairWidget->AddToViewport();
+		class UWorld* World = Super::GetWorld();
+		if (World != NULL) {
+			class APlayerController* playerController = Cast<APlayerController>(GetController());
+			if (playerController != NULL) {
+				CrosshairWidget = CreateWidget<UAimSystemComponent>(playerController, UAimSystemComponent::StaticClass());
+				if (CrosshairWidget != NULL) {
+					CrosshairWidget->AddToViewport();
+				}
+			}
+
 		}
+
 	}
 }
 
@@ -138,21 +144,6 @@ void AMainCharacter::teleport() {
 }
 
 
-void AMainCharacter::inventory() {
-	const class USceneComponent* CHILD = GetMesh()->GetChildComponent(0); // Get the attatched parent component | Example a weapon
-	if (CHILD != NULL) {
-		class AActor* actor = Cast<AActor>(CHILD->GetOwner());
-		if (actor != NULL) {
-			Items.Add(actor); // Add Items
-			actor->Destroy(); // Destroy The Item 
-			//@test
-			/*for (AActor* a : Items) {
-				GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Orange, FString::Printf(TEXT("OWNER = %s"), *a->GetName()));
-			}*/
-		}
-	}
-}
-
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void AMainCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) {
@@ -162,7 +153,6 @@ void AMainCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInpu
 	// ---------------- [Action] Key Binding Movement Events
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &AMainCharacter::Jump);
 	PlayerInputComponent->BindAction("Teleport", IE_Pressed, this, &AMainCharacter::teleport);
-	//PlayerInputComponent->BindAction("Inventory", IE_Pressed, this, &AMainCharacter::inventory);
 
 	// ---------------- [Axis] Key Binding Movement Events
 	PlayerInputComponent->BindAxis("MoveForward", this, &AMainCharacter::moveForward);
