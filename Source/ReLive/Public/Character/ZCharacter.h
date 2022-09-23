@@ -27,7 +27,7 @@ protected:
 	virtual void BeginPlay() override;
 
 	//! @brief: Function called whenever this actor is being removed from a level
-	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason);
+	//virtual void EndPlay(const EEndPlayReason::Type EndPlayReason);
 
 	//! @brief: Triggered if this character spots a pawn 
 	UFUNCTION()
