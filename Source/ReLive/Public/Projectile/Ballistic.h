@@ -4,9 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Kismet/GameplayStatics.h"
 #include "Components/SphereComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
+
 #include "Ballistic.generated.h"
 
 UCLASS()
@@ -24,6 +26,9 @@ class RELIVE_API ABallistic : public AActor {
 public:
 	//! @brief: Sets default values for this actor's properties
 	ABallistic();
+
+	UFUNCTION()
+	void OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse, const FHitResult& Hit);
 
 protected:
 	//! @brief: Called when the game starts or when spawned

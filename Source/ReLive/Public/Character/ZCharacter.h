@@ -18,6 +18,9 @@ class RELIVE_API AZCharacter : public ACharacter {
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = AI, meta = (AllowPrivateAccess = "true"))
 		class UPawnSensingComponent* PawnSensingComp;
 
+	//! @brief: Health System Component that will sense damage 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = AI, meta = (AllowPrivateAccess = "true"))
+		class UHealthSystemComponent* DamageSensingComp;
 	//UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Controller, meta = (AllowPrivateAccess = "true"))
 	//TObjectPtr<AAISystemsController> SystemsController;
 public:

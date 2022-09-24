@@ -2,6 +2,7 @@
 
 
 #include "Character/ZCharacter.h"
+#include "Character/HealthSystemComponent.h"
 
 // Sets default values
 AZCharacter::AZCharacter() {
@@ -48,6 +49,8 @@ AZCharacter::AZCharacter() {
 	// - [AI Controller]
 	AIControllerClass = AAISystemsController::StaticClass(); // Set the AI Controller Class
 
+
+	DamageSensingComp = CreateDefaultSubobject<UHealthSystemComponent>(TEXT("DamageSensingComp"));
 }
 
 // Called when the game starts or when spawned
