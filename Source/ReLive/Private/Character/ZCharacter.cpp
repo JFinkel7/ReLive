@@ -43,6 +43,11 @@ AZCharacter::AZCharacter() {
 	GetMovementComponent()->SetUpdateNavAgentWithOwnersCollisions(true);
 	GetMovementComponent()->NavAgentProps.AgentRadius = 42;
 	GetMovementComponent()->NavAgentProps.AgentHeight = 192;
+
+
+	// - [AI Controller]
+	AIControllerClass = AAISystemsController::StaticClass(); // Set the AI Controller Class
+
 }
 
 // Called when the game starts or when spawned
@@ -56,7 +61,7 @@ void AZCharacter::BeginPlay() {
 
 void AZCharacter::OnSeePlayer(APawn* OtherPawn) {
 	if (OtherPawn) {
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("Z1 Sight Detection"));
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Orange, TEXT("Z1 Sight Detection"));
 
 	}
 }

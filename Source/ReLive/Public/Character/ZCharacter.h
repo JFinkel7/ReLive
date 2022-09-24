@@ -4,9 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-#include "Components/CapsuleComponent.h" // New 
-#include "Perception/PawnSensingComponent.h" // New
-#include "GameFramework/PawnMovementComponent.h" // New
+#include "Components/CapsuleComponent.h" 
+#include "Perception/PawnSensingComponent.h" 
+#include "GameFramework/PawnMovementComponent.h" 
+#include "Character/AISystemsController.h" // New 
 #include "ZCharacter.generated.h"
 
 UCLASS()
@@ -17,7 +18,8 @@ class RELIVE_API AZCharacter : public ACharacter {
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = AI, meta = (AllowPrivateAccess = "true"))
 		class UPawnSensingComponent* PawnSensingComp;
 
-
+	//UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Controller, meta = (AllowPrivateAccess = "true"))
+	//TObjectPtr<AAISystemsController> SystemsController;
 public:
 	//! @brief: Sets default values for this character's properties
 	AZCharacter();
