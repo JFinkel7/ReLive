@@ -5,8 +5,7 @@
 
 // Sets default values
 ABallistic::ABallistic() {
-	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = false;
+	PrimaryActorTick.bCanEverTick = false;	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 
 	// ------ [Root] ------
 	RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("ROOT"));
@@ -36,7 +35,7 @@ ABallistic::ABallistic() {
 		ProjectileMovement->Bounciness = 0.3f;
 		ProjectileMovement->ProjectileGravityScale = 0.0f;
 	}
-	//Super::Damage
+
 	Super::InitialLifeSpan = 15.0f; // Destroy this actor in 15sec
 }
 
@@ -65,7 +64,8 @@ void ABallistic::OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpu
 	if ((OtherActor != NULL) && (OtherActor != this) && (SelfActor != NULL))
 		if (Hit.bBlockingHit) {
 			UGameplayStatics::ApplyPointDamage(OtherActor, 10.0f, GetActorLocation(), Hit, NULL, NULL, UDamageType::StaticClass());
-			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Actor Hit"));
+			//@test message
+			//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Actor Hit"));
 		}
 }
 

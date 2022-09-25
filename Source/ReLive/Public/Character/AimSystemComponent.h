@@ -3,15 +3,13 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Components/Widget.h"  // (REQUIRED)
+#include "Components/Widget.h"  
 #include "Components/PanelSlot.h"
-#include "Components/PanelWidget.h" // (REQUIRED)
+#include "Components/PanelWidget.h" 
 #include "Blueprint/WidgetTree.h"
-#include "Components/Button.h"
-#include "Components/Image.h"
 #include "Components/TextBlock.h" 
 #include "Components/CanvasPanel.h"
-#include "Components/CanvasPanelSlot.h" // (REQUIRED)
+#include "Components/CanvasPanelSlot.h" 
 #include "AimSystemComponent.generated.h"
 
 
@@ -24,11 +22,13 @@ class RELIVE_API UAimSystemComponent : public UUserWidget {
 	class UTextBlock* CrosshairText;
 
 public:	
-	// Sets default values for this component's properties
+	//! @brief: Sets default values for this component's properties
 	UAimSystemComponent(const FObjectInitializer& ObjectIn);
+
+	//! @brief: Initialize this component's
 	virtual bool Initialize() override;
 
-private:
-	bool IsAiming;
+
+
 		
 };

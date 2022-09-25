@@ -8,7 +8,6 @@
 #include "Components/SphereComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
-
 #include "Ballistic.generated.h"
 
 UCLASS()
@@ -27,6 +26,7 @@ public:
 	//! @brief: Sets default values for this actor's properties
 	ABallistic();
 
+	//! @brief: Listener event that will detect if this actor hit an object. 
 	UFUNCTION()
 	void OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse, const FHitResult& Hit);
 

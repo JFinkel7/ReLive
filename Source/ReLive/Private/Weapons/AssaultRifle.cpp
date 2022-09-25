@@ -30,16 +30,16 @@ AAssaultRifle::AAssaultRifle() {
 	Gun->bReceivesDecals = false;
 	Gun->bOnlyOwnerSee = false; // otherwise won't be visible in the multiplayer
 	Gun->CastShadow = false;
-	
+
 }
 
 
 // Called when the game starts or when spawned
 void AAssaultRifle::BeginPlay() {
 	Super::BeginPlay();
-	
+
 	FStreamableManager& AssetLoader = UAssetManager::GetStreamableManager(); // Create a Streamable Manager
-	USkeletalMesh* frame = AssetLoader.LoadSynchronous<USkeletalMesh>(FSoftObjectPath(TEXT("/Game/Weapons/Rifle/Assault_Rifle_A.Assault_Rifle_A")), true);
+	class USkeletalMesh* frame = AssetLoader.LoadSynchronous<USkeletalMesh>(FSoftObjectPath(TEXT("/Game/Weapons/Rifle/Assault_Rifle_A.Assault_Rifle_A")), true);
 	if (frame != NULL) {
 		Gun->SetSkeletalMesh(frame); // Set Asset
 		if (frame->IsAsset()) {
@@ -48,8 +48,8 @@ void AAssaultRifle::BeginPlay() {
 		}
 	}
 
-	// Message
-	GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Yellow, TEXT("[AAssaultRifle] SPAWNED = True"));
+	//@test message
+	//GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Yellow, TEXT("[AAssaultRifle] SPAWNED = True"));
 }
 
 
@@ -57,11 +57,12 @@ void AAssaultRifle::BeginPlay() {
 
 void AAssaultRifle::OnOverLapStart(class AActor* ThisActor, class AActor* OtherActor) {
 	if (OtherActor && (OtherActor != this)) {
-		GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Yellow, TEXT("Enter [E] Equip This Item")); // Message 		
+		// Message
+		GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Yellow, TEXT("Enter [E] To Equip This Weapon"));
 		class APlayerController* Controller = Cast<APlayerController>(OtherActor->GetOwner());
 		if (Controller != NULL) {
 			Super::EnableInput(Controller);// Enable Input 
-			FInputActionBinding binding = Super::InputComponent->BindAction<FInputEquipDelegate>(TEXT("Equip"), IE_Pressed, this, &AAssaultRifle::Equip, OtherActor);// [E] Key Action Binding Created 
+			FInputActionBinding& binding = Super::InputComponent->BindAction<FInputEquipDelegate>(TEXT("Equip"), IE_Pressed, this, &AAssaultRifle::Equip, OtherActor);// [E] Key Action Binding Created 
 			binding.bConsumeInput = true;
 		}
 	}
@@ -77,8 +78,8 @@ void AAssaultRifle::OnOverLapEnd(AActor* ThisActor, AActor* OtherActor) {
 		if (Super::InputComponent->HasBindings()) {// Check if this actor has any bindings  
 			// [E] key action binding removed 
 			Super::InputComponent->RemoveActionBinding(FName(TEXT("Equip")), EInputEvent::IE_Pressed);// Removes "Equip" Input Binding Key
-			// Message
-			GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Yellow, TEXT("OnOverLapEnd = True"));
+			//@test message
+			//GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Yellow, TEXT("OnOverLapEnd = True"));
 		}
 	}
 }
@@ -102,13 +103,13 @@ void AAssaultRifle::Equip(class AActor* OtherActor) {
 				Super::InputComponent->RemoveActionBinding(FName(TEXT("Equip")), EInputEvent::IE_Pressed);
 
 				// [F] Key Action Binding Created 
-				struct FInputActionBinding OnFireBinding = Super::InputComponent->BindAction<FInputFireDelegate>(TEXT("Fire"), IE_Pressed, this, &AAssaultRifle::Fire);
+				struct FInputActionBinding& OnFireBinding = Super::InputComponent->BindAction<FInputFireDelegate>(TEXT("Fire"), IE_Pressed, this, &AAssaultRifle::Fire);
 				OnFireBinding.bConsumeInput = true;
 
 				// [U] Key Action Binding Created 
-				struct FInputActionBinding bindOnUnEquip = Super::InputComponent->BindAction<FInputUnEquipDelegate>(TEXT("UnEquip"), IE_Pressed, this, &AAssaultRifle::UnEquip, OtherActor);
+				struct FInputActionBinding& bindOnUnEquip = Super::InputComponent->BindAction<FInputUnEquipDelegate>(TEXT("UnEquip"), IE_Pressed, this, &AAssaultRifle::UnEquip, OtherActor);
 				// Message
-				GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, TEXT("Weapon is Equiped"));
+				GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, TEXT("Weapon Equiped"));
 			}
 		}
 	}
@@ -129,7 +130,7 @@ void AAssaultRifle::UnEquip(class AActor* OtherActor) {
 			// [F] Key action binding removed
 			Super::InputComponent->RemoveActionBinding(FName(TEXT("Fire")), EInputEvent::IE_Pressed);
 			// Message
-			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, TEXT("Weapon is UnEquiped"));
+			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, TEXT("Weapon Dropped"));
 			// To Be Continued.... 
 			// NEXT I detatch and set this actor to the original location 
 		}
@@ -138,15 +139,16 @@ void AAssaultRifle::UnEquip(class AActor* OtherActor) {
 
 
 void AAssaultRifle::Fire() {
-	GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Green, TEXT("FIRE IS CALLED"));
 	class UWorld* World = GetWorld();
 	if (World != NULL) {
-		const FVector Location  = Gun->GetSocketLocation(FName(TEXT("MuzzleFlash"))); // Get The Gun Socket FName  Location 
+		const FVector Location = Gun->GetSocketLocation(FName(TEXT("MuzzleFlash"))); // Get The Gun Socket FName  Location 
 		const FRotator Rotation = Gun->GetSocketRotation(FName(TEXT("MuzzleFlash"))); // Get The Gun Socket FName Rotation
 		struct FActorSpawnParameters ActorSpawnParams;
 		ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
 		// Spawns the ballistic projectile 
 		World->SpawnActor<ABallistic>(Location, Rotation, ActorSpawnParams);
+		//@test message
+		//GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Green, TEXT("FIRE IS CALLED"));
 	}
 }
 

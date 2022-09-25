@@ -6,8 +6,6 @@
 AAISystemsController::AAISystemsController() {
 	if (this != NULL) {
 		BehaviorComp = CreateDefaultSubobject<UBehaviorTreeComponent>(TEXT("BehaviorComp"));
-		//BlackboardComp = CreateDefaultSubobject<UBlackboardComponent>(TEXT("BlackboardComp"));
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("[AAISystemsController] = Activated"));
 	}
 }
 
@@ -19,25 +17,13 @@ void AAISystemsController::OnPossess(class APawn* InPawn) {
 	Super::OnPossess(InPawn);
 	const FString Path = "/Game/Characters/Z1/AI/Z1BehaviorTree.Z1BehaviorTree";
 	BehaviorTree = Cast<UBehaviorTree>(StaticLoadObject(UBehaviorTree::StaticClass(), nullptr, *Path));
-
-	/* Hardcode Behavior Tree Path */
 	if (BehaviorTree != NULL) {
 		if (BehaviorComp) {
 			BehaviorComp->StartTree(*BehaviorTree, EBTExecutionMode::Looped); // Looped type Behavior Tree
-			//BehaviorComp->RestartLogic();//	Restarts currently running or previously ran brain logic.		
-			//BehaviorComp->StartLogic();// Starts brain logic. If brain is already running, will not do anything.
-			GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Purple, TEXT("BehaviorTree = Loaded"));
+			//@test message
+			//GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Yellow, TEXT("AI = POSSESSED"));
 		}		
 	}
-
-	//if (BehaviorTree != NULL) {
-	//	if (BehaviorTree->BlackboardAsset != NULL) {
-	//		BlackboardComp->InitializeBlackboard(*(BehaviorTree->BlackboardAsset));
-	//		BehaviorComp->StartTree(*BehaviorTree);
-	//		GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Yellow, TEXT("AI = POSSESSED"));
-	//	}
-	//}
-
 }
 
 

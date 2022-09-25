@@ -7,7 +7,7 @@
 #include "Components/CapsuleComponent.h" 
 #include "Perception/PawnSensingComponent.h" 
 #include "GameFramework/PawnMovementComponent.h" 
-#include "Character/AISystemsController.h" // New 
+#include "Character/AISystemsController.h" 
 #include "ZCharacter.generated.h"
 
 UCLASS()
@@ -21,8 +21,7 @@ class RELIVE_API AZCharacter : public ACharacter {
 	//! @brief: Health System Component that will sense damage 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = AI, meta = (AllowPrivateAccess = "true"))
 		class UHealthSystemComponent* DamageSensingComp;
-	//UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Controller, meta = (AllowPrivateAccess = "true"))
-	//TObjectPtr<AAISystemsController> SystemsController;
+
 public:
 	//! @brief: Sets default values for this character's properties
 	AZCharacter();
@@ -32,7 +31,7 @@ protected:
 	virtual void BeginPlay() override;
 
 	//! @brief: Function called whenever this actor is being removed from a level
-	//virtual void EndPlay(const EEndPlayReason::Type EndPlayReason);
+    virtual void EndPlay(const EEndPlayReason::Type EndPlayReason);
 
 	//! @brief: Triggered if this character spots a pawn 
 	UFUNCTION()

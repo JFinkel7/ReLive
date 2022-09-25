@@ -49,7 +49,7 @@ AZCharacter::AZCharacter() {
 	// - [AI Controller]
 	AIControllerClass = AAISystemsController::StaticClass(); // Set the AI Controller Class
 
-
+	// - [Health System Component]
 	DamageSensingComp = CreateDefaultSubobject<UHealthSystemComponent>(TEXT("DamageSensingComp"));
 }
 
@@ -64,13 +64,14 @@ void AZCharacter::BeginPlay() {
 
 void AZCharacter::OnSeePlayer(APawn* OtherPawn) {
 	if (OtherPawn) {
+		//@test message
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Orange, TEXT("Z1 Sight Detection"));
 
 	}
 }
 
 
-//void AZCharacter::EndPlay(const EEndPlayReason::Type EndPlayReason) {
-//	Super::EndPlay(EndPlayReason);
-//}
+void AZCharacter::EndPlay(const EEndPlayReason::Type EndPlayReason) {
+	Super::EndPlay(EndPlayReason);
+}
 

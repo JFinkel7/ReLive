@@ -6,12 +6,12 @@
 #include "GameFramework/Actor.h"
 #include "GameFramework/Character.h" 
 #include "Engine/SkeletalMesh.h"
-#include "Projectile/Ballistic.h" // Imported Class
 #include "UObject/SoftObjectPath.h" 
 #include "Engine/StreamableManager.h" 
 #include "Engine/AssetManager.h" 
 #include "Components/SphereComponent.h"
 #include "Components/SkeletalMeshComponent.h"
+#include "Projectile/Ballistic.h" // Imported
 #include "AssaultRifle.generated.h"
 
 DECLARE_DELEGATE_OneParam(FInputEquipDelegate, class AActor* OtherActor);

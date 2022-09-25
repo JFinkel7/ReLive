@@ -3,23 +3,19 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "AIController.h"
+#include "NavigationPath.h" 
+#include "NavigationSystem.h"
 #include "BehaviorTree/BTTaskNode.h"
-#include "AIController.h" // New 
-#include "NavigationSystem.h" // New
-#include "NavigationPath.h" // New
-
 #include "RoamBTTaskNode.generated.h"
 
-/**
- * 
- */
 UCLASS()
 class RELIVE_API URoamBTTaskNode : public UBTTaskNode{
 	GENERATED_BODY()
 
 private: 
-	//! @brief: This Task will be responsible to Move the AI to our chosen [Actor]
-	//! @note: Make sure the composite node is [Selector]
+	//! @brief: Will move the AI to random locations within the Nav-Mesh
+	//! @note: This task is added from the BehaviorTree
 	virtual EBTNodeResult::Type ExecuteTask(class UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) override;
 
 };
