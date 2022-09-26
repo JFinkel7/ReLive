@@ -20,7 +20,11 @@ public:
 
     //! @brief: Triggered by Pawn Taking Damage | Damage Event
     UFUNCTION()
-    void OnDamaged(class AActor* DamagedActor, float Damage, const class UDamageType* DamageType, class AController* InstigatedBy, class AActor* DamageCauser);
+    void OnAnyDamaged(class AActor* DamagedActor, float Damage, const class UDamageType* DamageType, class AController* InstigatedBy, class AActor* DamageCauser);
+
+    //! @brief: Event that will activate once the owner is destroyed
+    UFUNCTION()
+   void OnOwnerDestroyed(class AActor* Owner);
 
 protected:
     //! @brief: Called When Game Starts

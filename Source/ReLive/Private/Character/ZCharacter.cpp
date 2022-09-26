@@ -50,7 +50,7 @@ AZCharacter::AZCharacter() {
 	AIControllerClass = AAISystemsController::StaticClass(); // Set the AI Controller Class
 
 	// - [Health System Component]
-	DamageSensingComp = CreateDefaultSubobject<UHealthSystemComponent>(TEXT("DamageSensingComp"));
+	//DamageSensingComp = CreateDefaultSubobject<UHealthSystemComponent>(TEXT("DamageSensingComp"));
 }
 
 // Called when the game starts or when spawned

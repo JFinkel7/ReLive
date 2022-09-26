@@ -28,7 +28,7 @@ public:
 
 	//! @brief: Listener event that will detect if this actor hit an object. 
 	UFUNCTION()
-	void OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse, const FHitResult& Hit);
+	void OnHit(AActor* ThisActor, AActor* HitActor, FVector NormalImpulse, const FHitResult& HitInfo);
 
 protected:
 	//! @brief: Called when the game starts or when spawned

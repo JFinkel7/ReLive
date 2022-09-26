@@ -64,11 +64,11 @@ void ABallistic::BeginPlay() {
 
 
 
-void ABallistic::OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse, const FHitResult& Hit) {
-	if ((OtherActor != NULL) && (OtherActor != this) && (SelfActor != NULL))
-		if (Hit.bBlockingHit) {
+void ABallistic::OnHit(AActor* ThisActor, AActor* HitActor, FVector NormalImpulse, const FHitResult& HitInfo) {
+	if ((HitActor != NULL) && (HitActor != this) && (ThisActor != NULL))
+		if (HitInfo.bBlockingHit) {
 			// Apply Damage on Hit
-			UGameplayStatics::ApplyPointDamage(OtherActor, 10.0f, GetActorLocation(), Hit, NULL, NULL, UDamageType::StaticClass());
+			UGameplayStatics::ApplyPointDamage(HitActor, 10.0f, GetActorLocation(), HitInfo, NULL, NULL, UDamageType::StaticClass());
 			//@test message
 			//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Actor Hit"));
 		}

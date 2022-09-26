@@ -72,7 +72,7 @@ void AMainCharacter::BeginPlay() {
 		// Loads T100 Skeletal Mesh
 		class USkeletalMesh* SkeletalAsset = AssetLoader.LoadSynchronous<USkeletalMesh>(FSoftObjectPath(TEXT("/Game/Characters/T100/Skeletal/T100.T100")), true);
 		// Loads T100 Animation Blueprint
-		class UAnimBlueprint* MainAnimation = AssetLoader.LoadSynchronous<UAnimBlueprint>(FSoftObjectPath(TEXT("/Game/Characters/T100/Animations/T100_AnimBP.T100_AnimBP")), true);
+		class UAnimBlueprint* MainAnimation = AssetLoader.LoadSynchronous<UAnimBlueprint>(FSoftObjectPath(TEXT("/Game/Characters/T100/Animations/T100_AnimationBP.T100_AnimationBP")), true);
 
 		if (SkeletalAsset != NULL) {
 			GetMesh()->SetSkeletalMesh(SkeletalAsset, false);
