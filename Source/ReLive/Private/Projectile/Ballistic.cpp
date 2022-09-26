@@ -22,7 +22,11 @@ ABallistic::ABallistic() {
 	Material->SetGenerateOverlapEvents(false); // (ON) Overlap Events 
 	Material->SetNotifyRigidBodyCollision(true);// (OFF) Hit Events
 	Material->SetHiddenInGame(false);// (ON) Visible 
-
+	Material->bCastDynamicShadow = false;
+	Material->bReceivesDecals = false;
+	Material->bOnlyOwnerSee = false; // otherwise won't be visible in the multiplayer
+	Material->CastShadow = false;
+	
 
 	// ------ [Projectile Movement Component] ------
 	ProjectileMovement = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("ProjectileComponent"));
@@ -63,6 +67,7 @@ void ABallistic::BeginPlay() {
 void ABallistic::OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse, const FHitResult& Hit) {
 	if ((OtherActor != NULL) && (OtherActor != this) && (SelfActor != NULL))
 		if (Hit.bBlockingHit) {
+			// Apply Damage on Hit
 			UGameplayStatics::ApplyPointDamage(OtherActor, 10.0f, GetActorLocation(), Hit, NULL, NULL, UDamageType::StaticClass());
 			//@test message
 			//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Actor Hit"));

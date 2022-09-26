@@ -6,13 +6,13 @@
 #include "Animation/AnimInstance.h"  // (REQUIRED)
 #include "KismetAnimationLibrary.h" // (REQUIRED)
 #include "GameFramework/PawnMovementComponent.h"  // (REQUIRED)
-#include "MainCharacterAnimInstance.generated.h"
+#include "CharacterAnimInstance.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class RELIVE_API UMainCharacterAnimInstance : public UAnimInstance{
+class RELIVE_API UCharacterAnimInstance : public UAnimInstance{
 	GENERATED_BODY()
 
 

@@ -1,20 +1,21 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
+
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
-#include "Camera/CameraComponent.h" 
-#include "GameFramework/Controller.h" 
+#include "Character/AimSystemComponent.h" 
 #include "Components/CapsuleComponent.h" 
 #include "Components/ArrowComponent.h" 
+#include "GameFramework/Controller.h" 
 #include "Components/InputComponent.h" 
-#include "UObject/SoftObjectPath.h" 
-#include "Engine/StreamableManager.h"
-#include "Engine/AssetManager.h" 
+#include "Engine/StreamableManager.h" // *
+#include "UObject/SoftObjectPath.h" // *
+#include "GameFramework/Character.h"
+#include "Camera/CameraComponent.h" 
+#include "Engine/AssetManager.h" // *
 #include "DrawDebugHelpers.h"
 #include "CoreMinimal.h"
-#include "GameFramework/Character.h"
-#include "Character/AimSystemComponent.h" 
 #include "MainCharacter.generated.h"
 
 
