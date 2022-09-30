@@ -14,6 +14,7 @@ AMainCharacter::AMainCharacter() {
 	PrimaryActorTick.bCanEverTick = false;
 	// ------ [Collision Capsule] ------
 	GetCapsuleComponent()->InitCapsuleSize(32.0f, 96.0f);
+
 	GetCapsuleComponent()->SetCollisionProfileName("Player");
 	GetCapsuleComponent()->SetGenerateOverlapEvents(true); // Turn On (Overlap Events)
 	GetCapsuleComponent()->SetNotifyRigidBodyCollision(false);
@@ -32,11 +33,15 @@ AMainCharacter::AMainCharacter() {
 	CameraBoom->SetupAttachment(RootComponent);
 	CameraBoom->TargetArmLength = 300.0f;       // The camera follows at this distance behind the character
 	CameraBoom->bUsePawnControlRotation = true; // Rotate the arm based on the controller
+	CameraBoom->bDoCollisionTest = true;
+	//CameraBoom->bEnableCameraLag = true;
+	//CameraBoom->bEnableCameraRotationLag = true;
 
 	// ------ [Camera Component] ------
 	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName); // Attach the camera to the end of the boom and let the boom adjust to match the controller orientation
 	FollowCamera->bUsePawnControlRotation = false;
+	
 
 	// ------ [Character Mesh] ------
 	GetMesh()->SetRelativeLocation(FVector(0.0f, 0.0f, -100.0f));

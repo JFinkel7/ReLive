@@ -23,7 +23,7 @@ AZCharacter::AZCharacter() {
 
 	// - [Capsule Collision]
 	GetCapsuleComponent()->InitCapsuleSize(32.0f, 96.0f);//@Default 32.0f, 96.0f
-	GetCapsuleComponent()->SetCollisionProfileName("Pawn"); // (DEFAULT) - Pawn 
+	GetCapsuleComponent()->SetCollisionProfileName("AI"); // (DEFAULT) - AI 
 	GetCapsuleComponent()->SetGenerateOverlapEvents(false); // Turn On for (Overlap Events)
 	GetCapsuleComponent()->SetNotifyRigidBodyCollision(false);
 
@@ -32,7 +32,7 @@ AZCharacter::AZCharacter() {
 	GetMesh()->SetRelativeLocation(FVector(0.0f, 0.0f, -100.0f));
 	GetMesh()->SetRelativeRotation(FRotator(0.0f, -90.0f, 0.0f));
 	GetMesh()->AttachToComponent(GetCapsuleComponent(), FAttachmentTransformRules::SnapToTargetNotIncludingScale);
-	GetMesh()->SetCollisionProfileName("AI"); // (DEFAULT) - Enemy 
+	GetMesh()->SetCollisionProfileName("CharacterMesh"); // (DEFAULT) - CharacterMesh 
 	GetMesh()->CanCharacterStepUpOn = ECB_No;
 	GetMesh()->SetGenerateOverlapEvents(true); // Turn On for (Overlap Events)
 	GetMesh()->SetNotifyRigidBodyCollision(false);

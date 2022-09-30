@@ -27,7 +27,8 @@ bool UAimSystemComponent::Initialize() {
 				UCanvasPanelSlot* panel = Cast<UCanvasPanelSlot>(CrosshairText->Slot);
 				if (panel != NULL) {
 					// ---- Set the Panel Layout in the Center of the Screen --
-					panel->SetAnchors(FAnchors(0.5, 0.5));
+					// X = Left | Right & Y = Up | Down
+					panel->SetAnchors(FAnchors(0.55, 0.4));
 					panel->SetAlignment(FVector2D(0.5f, 0.5f));
 					panel->SetPosition(FVector2D(0, 0));
 					panel->SetAutoSize(true);
