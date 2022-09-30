@@ -2,7 +2,7 @@
 
 
 #include "Character/ZCharacter.h"
-#include "Character/HealthSystemComponent.h"
+//#include "Character/HealthSystemComponent.h"
 
 // Sets default values
 AZCharacter::AZCharacter() {
@@ -13,13 +13,14 @@ AZCharacter::AZCharacter() {
 	PawnSensingComp = CreateDefaultSubobject<UPawnSensingComponent>(TEXT("PawnSensingComp"));
 	PawnSensingComp->SetPeripheralVisionAngle(60.0f);
 	PawnSensingComp->SightRadius = 2000;
-	PawnSensingComp->HearingThreshold = 600;
-	PawnSensingComp->LOSHearingThreshold = 1200;
-	PawnSensingComp->SensingInterval = 3.0f;
-	PawnSensingComp->bSeePawns = true;
+	PawnSensingComp->HearingThreshold = 0; // 600
+	PawnSensingComp->LOSHearingThreshold = 0;// 1200
+	PawnSensingComp->SensingInterval = 3.0f;// Updated Interval time 3.0f
+	PawnSensingComp->bSeePawns = true;// See other pawns (false)
 	PawnSensingComp->bHearNoises = false;
 	PawnSensingComp->bOnlySensePlayers = true; // Will Only Sense Players | Other Pawns
-	PawnSensingComp->SetSensingUpdatesEnabled(true);
+	PawnSensingComp->bEnableSensingUpdates = true;
+	PawnSensingComp->bTickInEditor = false;
 
 	// - [Capsule Collision]
 	GetCapsuleComponent()->InitCapsuleSize(32.0f, 96.0f);//@Default 32.0f, 96.0f
@@ -28,7 +29,6 @@ AZCharacter::AZCharacter() {
 	GetCapsuleComponent()->SetNotifyRigidBodyCollision(false);
 
 	// - [Skeletal Mesh]
-
 	GetMesh()->SetRelativeLocation(FVector(0.0f, 0.0f, -100.0f));
 	GetMesh()->SetRelativeRotation(FRotator(0.0f, -90.0f, 0.0f));
 	GetMesh()->AttachToComponent(GetCapsuleComponent(), FAttachmentTransformRules::SnapToTargetNotIncludingScale);
@@ -36,7 +36,9 @@ AZCharacter::AZCharacter() {
 	GetMesh()->CanCharacterStepUpOn = ECB_No;
 	GetMesh()->SetGenerateOverlapEvents(true); // Turn On for (Overlap Events)
 	GetMesh()->SetNotifyRigidBodyCollision(false);
-
+	//GetMesh()->bOnlyOwnerSee = false; // otherwise won't be visible in the multiplayer
+	//GetMesh()->bNoSkeletonUpdate = true;
+	//GetMesh()->bDisableClothSimulation = true;
 
 	// - [Movement Component]
 	/* These values are matched up to the CapsuleComponent above and are used to find navigation paths */
@@ -44,7 +46,7 @@ AZCharacter::AZCharacter() {
 	GetMovementComponent()->SetUpdateNavAgentWithOwnersCollisions(true);
 	GetMovementComponent()->NavAgentProps.AgentRadius = 42;
 	GetMovementComponent()->NavAgentProps.AgentHeight = 192;
-
+	
 
 	// - [AI Controller]
 	AIControllerClass = AAISystemsController::StaticClass(); // Set the AI Controller Class
@@ -58,6 +60,7 @@ void AZCharacter::BeginPlay() {
 	Super::BeginPlay();
 	if (PawnSensingComp) {
 		PawnSensingComp->OnSeePawn.AddDynamic(this, &AZCharacter::OnSeePlayer);
+		
 	}
 }
 

@@ -7,6 +7,7 @@
 #include "Components/CapsuleComponent.h" 
 #include "Perception/PawnSensingComponent.h" 
 #include "GameFramework/PawnMovementComponent.h" 
+#include "Components/PrimitiveComponent.h"
 #include "Character/AISystemsController.h" 
 #include "ZCharacter.generated.h"
 

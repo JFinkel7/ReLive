@@ -11,14 +11,15 @@ EBTNodeResult::Type URoamBTTaskNode::ExecuteTask(class UBehaviorTreeComponent& O
 			// (3) - Get Location
 			const FVector ORIGIN = AI->GetActorLocation();
 			// (4) - Get Current Navigation Mesh References
-			class UNavigationSystemV1* NAV = UNavigationSystemV1::GetCurrent(GetWorld());
+			const class UNavigationSystemV1* NAV = UNavigationSystemV1::GetCurrent(GetWorld());
 			if (NAV != NULL) {
 				// (5) - Set Nav Location Point
 				struct FNavLocation randomPoint;
+
 				// (6) - Get Random Nav Point
 				if (NAV->GetRandomReachablePointInRadius(ORIGIN, 1500.0f, randomPoint)) {
 					// (7) - Create FAI Move Request
-					struct FNavigationPath path;
+					//struct FNavigationPath path;
 					struct FAIMoveRequest request;
 					request.SetCanStrafe(false); // Default (OFF)
 					request.SetAllowPartialPath(true);// Default (ON) 
@@ -27,7 +28,6 @@ EBTNodeResult::Type URoamBTTaskNode::ExecuteTask(class UBehaviorTreeComponent& O
 
 
 					if (request.IsValid()) {//  Check Path Results
-						AIController->SetMoveBlockDetection(true);
 						switch (AIController->MoveTo(request)) {
 							case(EPathFollowingRequestResult::AlreadyAtGoal):
 							{
@@ -42,12 +42,13 @@ EBTNodeResult::Type URoamBTTaskNode::ExecuteTask(class UBehaviorTreeComponent& O
 							}
 						}
 					}
+
+
 				}
 			}
 		}
 
 	}
-
 
 	return EBTNodeResult::Succeeded;
 }
