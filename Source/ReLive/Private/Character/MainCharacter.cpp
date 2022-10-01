@@ -41,7 +41,7 @@ AMainCharacter::AMainCharacter() {
 	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName); // Attach the camera to the end of the boom and let the boom adjust to match the controller orientation
 	FollowCamera->bUsePawnControlRotation = false;
-	
+
 
 	// ------ [Character Mesh] ------
 	GetMesh()->SetRelativeLocation(FVector(0.0f, 0.0f, -100.0f));
@@ -65,6 +65,7 @@ AMainCharacter::AMainCharacter() {
 	// ------ [Inventory Component] ------
 	//#include "Character/InventoryComponent.h"
 	//class UInventoryComponent* Inventory = CreateDefaultSubobject<UInventoryComponent>(TEXT("InventoryComponent"));
+
 
 }
 
@@ -101,12 +102,9 @@ void AMainCharacter::BeginPlay() {
 	}
 }
 
-// Called every frame
-void AMainCharacter::Tick(float DeltaTime) {
-	Super::Tick(DeltaTime);
 
-}
 
+//==================================================[ACTIONS]==================================================
 void AMainCharacter::moveForward(float Val) {
 	if ((Controller != nullptr) && (Val != 0.0f)) {
 		// Find out which way is forward
@@ -141,14 +139,6 @@ void AMainCharacter::lookUpRate(float Rate) {
 	AddControllerPitchInput(Rate * (45.0f) * GetWorld()->GetDeltaSeconds()); // BaseLoopUpRate = 45.0f
 }
 
-//==================================================[ACTIONS]==================================================
-void AMainCharacter::teleport() {
-	const FVector CURRENT_LOCATION = (Super::GetActorForwardVector() * 750.0f) + Super::GetActorLocation();
-	const FRotator CURRENT_ROTATION = Super::GetActorRotation();
-	Super::TeleportTo(CURRENT_LOCATION, CURRENT_ROTATION, false, true);
-}
-
-
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void AMainCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) {
@@ -157,8 +147,6 @@ void AMainCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInpu
 
 	// ---------------- [Action] Key Binding Movement Events
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &AMainCharacter::Jump);
-	PlayerInputComponent->BindAction("Teleport", IE_Pressed, this, &AMainCharacter::teleport);
-
 	// ---------------- [Axis] Key Binding Movement Events
 	PlayerInputComponent->BindAxis("MoveForward", this, &AMainCharacter::moveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &AMainCharacter::moveRight);

@@ -15,11 +15,9 @@ EBTNodeResult::Type URoamBTTaskNode::ExecuteTask(class UBehaviorTreeComponent& O
 			if (NAV != NULL) {
 				// (5) - Set Nav Location Point
 				struct FNavLocation randomPoint;
-
 				// (6) - Get Random Nav Point
 				if (NAV->GetRandomReachablePointInRadius(ORIGIN, 1500.0f, randomPoint)) {
 					// (7) - Create FAI Move Request
-					//struct FNavigationPath path;
 					struct FAIMoveRequest request;
 					request.SetCanStrafe(false); // Default (OFF)
 					request.SetAllowPartialPath(true);// Default (ON) 
