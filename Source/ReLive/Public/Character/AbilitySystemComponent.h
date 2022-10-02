@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "GameFramework/Character.h"
 #include "Particles/ParticleSystemComponent.h" // New 
 #include "AbilitySystemComponent.generated.h"
 

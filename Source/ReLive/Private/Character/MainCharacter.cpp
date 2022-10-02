@@ -2,7 +2,7 @@
 
 
 #include "Character/MainCharacter.h"
-
+#include "Character/AbilitySystemComponent.h"
 
 //GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Working = TRUE"));
 //GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Green, FString::Printf(TEXT("OWNER = %s"), *OtherActor->GetOwner()->GetName()));
@@ -66,6 +66,9 @@ AMainCharacter::AMainCharacter() {
 	//#include "Character/InventoryComponent.h"
 	//class UInventoryComponent* Inventory = CreateDefaultSubobject<UInventoryComponent>(TEXT("InventoryComponent"));
 
+
+	// ------ [Ability System Component] ------
+	class UAbilitySystemComponent* AbilitySystem = CreateDefaultSubobject<UAbilitySystemComponent>(TEXT("AbilitySystemComponent"));
 
 }
 
