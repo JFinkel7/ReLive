@@ -2,12 +2,13 @@
 
 
 #include "Weapons/AssaultRifle.h"
-
+#include "EquipSystemComponent.h"
 AAssaultRifle::AAssaultRifle() {
 	PrimaryActorTick.bCanEverTick = false;
-
-	// ------ [CollisionSphere Component] ------
-	CollisionSphere = CreateDefaultSubobject<USphereComponent>(TEXT("CollisionSphereComponent"));
+	
+	CollisionSphere = CreateDefaultSubobject<UEquipSystemComponent>(TEXT("UEquipSystemComponent"));
+	 //------ [CollisionSphere Component] ------
+	//CollisionSphere = CreateDefaultSubobject<USphereComponent>(TEXT("CollisionSphereComponent"));
 	CollisionSphere->SetupAttachment(RootComponent);// Attaches to the Gun Static Mesh 
 	CollisionSphere->SetCollisionProfileName(TEXT("Weapon")); // Set Default Profile
 	CollisionSphere->Mobility = EComponentMobility::Movable;
@@ -43,8 +44,8 @@ void AAssaultRifle::BeginPlay() {
 	if (frame != NULL) {
 		Gun->SetSkeletalMesh(frame); // Set Asset
 		if (frame->IsAsset()) {
-			OnActorBeginOverlap.AddDynamic(this, &AAssaultRifle::OnOverLapStart); // Register OnOverlapStart
-			OnActorEndOverlap.AddDynamic(this, &AAssaultRifle::OnOverLapEnd); // Register OnOverlapEnd
+			//OnActorBeginOverlap.AddDynamic(this, &AAssaultRifle::OnOverLapStart); // Register OnOverlapStart
+			//OnActorEndOverlap.AddDynamic(this, &AAssaultRifle::OnOverLapEnd); // Register OnOverlapEnd
 		}
 	}
 

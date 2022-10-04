@@ -12,6 +12,7 @@
 #include "Components/SphereComponent.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "Projectile/Ballistic.h" // Imported
+#include "EquipSystemComponent.h"  // Imported
 #include "AssaultRifle.generated.h"
 
 DECLARE_DELEGATE_OneParam(FInputEquipDelegate, class AActor* OtherActor);
@@ -22,13 +23,16 @@ class RELIVE_API AAssaultRifle : public AActor {
 	GENERATED_BODY()
 	
 	//! @brief: The parent collision sphere the will wrap around this actor	
-	UPROPERTY(VisibleDefaultsOnly, Category = Collision)
-		class USphereComponent* CollisionSphere;
+	//UPROPERTY(VisibleDefaultsOnly, Category = Collision)
+	//class USphereComponent* CollisionSphere;
 
 	//! @brief: The child skeletal mesh will render the weapon visual mesh 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Rifle, meta = (AllowPrivateAccess = "true"))
 		class USkeletalMeshComponent* Gun;
 
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Equip, meta = (AllowPrivateAccess = "true"))
+	class UEquipSystemComponent* CollisionSphere;
 public:
 	//! @brief: Sets default values for this actor's properties
 	//! @note: Loads static mesh visuals on component created
