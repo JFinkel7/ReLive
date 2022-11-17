@@ -20,7 +20,7 @@ void UInventorySystemComponent::BeginPlay() {
 			if (controller != NULL) {
 				character->EnableInput(controller);	// Enable Input
 				// [I] Key Action Binding Created 
-				FInputActionBinding& inventoryBinding = character->InputComponent->BindAction<FInputInventoryDelegate>(TEXT("Inventory"), IE_Pressed, this, &UInventorySystemComponent::AddToInventory, character);
+				FInputActionBinding& inventoryBinding = character->InputComponent->BindAction<FInputAddInventoryDelegate>(TEXT("Inventory"), IE_Pressed, this, &UInventorySystemComponent::AddToInventory, character);
 				// Consume the input
 				inventoryBinding.bConsumeInput = false;
 
@@ -28,7 +28,7 @@ void UInventorySystemComponent::BeginPlay() {
 				GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("[UInventorySystemComponent] OWNER = %s"), *character->GetName()));
 
 				// [I] Key Action Binding Created 
-				FInputActionBinding& toggleBinding = character->InputComponent->BindAction<FInputToggleDelegate>(TEXT("Toggle"), IE_Pressed, this, &UInventorySystemComponent::ToggleFromInventory, character);
+				FInputActionBinding& toggleBinding = character->InputComponent->BindAction<FInputToggleInventoryDelegate>(TEXT("Toggle"), IE_Pressed, this, &UInventorySystemComponent::ToggleFromInventory, character);
 				// Consume the input
 				toggleBinding.bConsumeInput = false;
 			}
@@ -43,10 +43,8 @@ void UInventorySystemComponent::AddToInventory(ACharacter* OtherActor) {
 		if (CHILD != NULL) {
 			class AActor* item = Cast<AActor>(CHILD->GetOwner()); // Get the actor from the UActorComponent | could be a weapon, item, or a picked up object actor
 			if (item != NULL) {
-				// Add the item to the array	
-				Inventory.Add(item);
-				// Destroy the held item
-				item->Destroy();
+				Inventory.Add(item);// Add the item to the array			
+				item->Destroy();// Destroy the held item
 				// Message
 				GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Red, FString::Printf(TEXT("Inventory Item Added = [%s]"), *item->GetName()));
 				// @test
@@ -59,21 +57,22 @@ void UInventorySystemComponent::AddToInventory(ACharacter* OtherActor) {
 }
 
 void UInventorySystemComponent::ToggleFromInventory(ACharacter* OtherActor) {
-	if (OtherActor && Inventory.Num() >= 1) {// Check if there are items in the inventory array
-		class ACharacter* character = Cast<ACharacter>(OtherActor); // Get the character who owns this component
+	// Check if there > 1 items in the inventory array
+	if (OtherActor && Inventory.Num() >= 1) {
+		// Get the character who owns this component
+		class ACharacter* character = Cast<ACharacter>(OtherActor);
 		if (character) {
 			class APlayerController* controller = Cast<APlayerController>(character->GetOwner());// Get The character's controller
+			// Check if the player controller is Valid
 			if (controller) {
-				const bool ONE_IS_PRESSED = controller->IsInputKeyDown(EKeys::One);
-				const bool TWO_IS_PRESSED = controller->IsInputKeyDown(EKeys::Two);
-
-				// [1] Pressed? 
-				if (ONE_IS_PRESSED) {
-					GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, TEXT("[1] Key Pressed"));
+				// [Shift] + [1] Pressed? 
+				if (controller->IsInputKeyDown(EKeys::LeftShift) && controller->IsInputKeyDown(EKeys::One)) {
+					//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Orange, TEXT("[1] Key Pressed"));
 					class UClass* pulled_item = Cast<UClass>(Inventory[0]->GetClass());// Get the class reference from the first actor in the array | TArray<AActor*> Inventory
 					if (pulled_item != NULL) {
-						// - (2) Spawn the new actor from the UClass 
-						class AActor* inventory_item = GetWorld()->SpawnActor<AActor>(pulled_item);
+						// - (2) Spawn the new actor from the UClass 				
+						class AActor* inventory_item = GetWorld()->SpawnActor<AActor>(pulled_item, character->GetActorLocation(), character->GetActorRotation());
+						// Remove The Item From The Inventory
 						Inventory.RemoveAt(0);
 						// ------------------------------ [NEXT UPDATE] ------------------------------
 							// @note: attach the item to the character hands after the item is spawned make.
@@ -88,7 +87,7 @@ void UInventorySystemComponent::ToggleFromInventory(ACharacter* OtherActor) {
 				}
 
 				// [2] Pressed? 
-				else if (TWO_IS_PRESSED) {
+				else if (controller->IsInputKeyDown(EKeys::LeftShift) && controller->IsInputKeyDown(EKeys::Two)) {
 					if (Inventory.IsValidIndex(1)) {// - check if there are two items in the inventory
 						GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, TEXT("[2] Key Pressed"));
 					}
@@ -102,8 +101,28 @@ void UInventorySystemComponent::ToggleFromInventory(ACharacter* OtherActor) {
 }
 
 
-
-// Called every frame
-void UInventorySystemComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) {
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+#include "Components/HorizontalBox.h"
+#include "Blueprint/UserWidget.h"
+#include "Components/TextBlock.h" 
+// [Tab] Key
+void UInventorySystemComponent::ShowInventory(){
+	// Set Path 
+	const FString PATH = "/Game/InventoryWidget.InventoryWidget_C";
+	// Set Owner
+	class ACharacter* OWNER = Cast<ACharacter>(GetOwner()); // Get the character who owns this component
+	// Load The BP 
+	TSubclassOf<UUserWidget> InventoryWidgetBP = LoadClass<UUserWidget>(GetWorld(), *PATH);
+	
+	if (InventoryWidgetBP) {
+		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Orange, TEXT("InventoryWidgetBP = TRUE"));
+		//class UTextBlock* TextBlock_1 = CreateWidget<UTextBlock>(OWNER->GetController(), InventoryWidgetBP);
+		//if (TextBlock_1 != NULL) {
+			//TextBlock_1->SetText(FText::FromString("TEST!"));
+			//InventoryWidgetBP->AddToV
+		//}
+	
+	}
 }
+
+
+

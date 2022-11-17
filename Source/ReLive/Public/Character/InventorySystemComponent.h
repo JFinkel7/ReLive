@@ -7,8 +7,9 @@
 #include "GameFramework/Character.h"
 #include "InventorySystemComponent.generated.h"
 
-DECLARE_DELEGATE_OneParam(FInputInventoryDelegate, class ACharacter* OtherActor);
-DECLARE_DELEGATE_OneParam(FInputToggleDelegate,    class ACharacter* OtherActor);
+DECLARE_DELEGATE_OneParam(FInputAddInventoryDelegate, class ACharacter* OtherActor);
+DECLARE_DELEGATE_OneParam(FInputToggleInventoryDelegate,    class ACharacter* OtherActor);
+DECLARE_DELEGATE(FInputShowInventoryDelegate);
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class RELIVE_API UInventorySystemComponent : public UActorComponent{
 	GENERATED_BODY()
@@ -21,20 +22,22 @@ protected:
 	//! @brief: Called when the game starts or when attached to the an actor 
 	virtual void BeginPlay() override;
 
-public:	
-	//! @brief: Called every frame
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-
-
 private:
 	//! @brief: Adds Item to an array
-	//! @note:  [I] Action Key
+	//! @note: [I] Action Key
+	//! @ref: FInputAddInventoryDelegate
 	void AddToInventory(class ACharacter* OtherActor);
 
 
 	//! @brief: Adds Item to an array
-	//! @note: [Shift] + [T] Action Key 
+	//! @note: [Left Shift] + [1] Action Key 
+	//! @ref: FInputToggleInventoryDelegate
 	void ToggleFromInventory(class ACharacter* OtherActor);
+
+	//! @brief: Adds Item to an array
+	//! @note: [Left Shift] + [M] Action Key 
+	//! @ref: FInputShowInventoryDelegate 
+	void ShowInventory();
 
 	//! @brief: Collection of actors
 	TArray<AActor*> Inventory;

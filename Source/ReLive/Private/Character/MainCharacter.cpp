@@ -3,7 +3,8 @@
 
 #include "Character/MainCharacter.h"
 #include "Character/AbilitySystemComponent.h"
-
+#include "Character/InventorySystemComponent.h"
+#include "Widgets/InventoryWidget.h"
 //GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Working = TRUE"));
 //GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Green, FString::Printf(TEXT("OWNER = %s"), *OtherActor->GetOwner()->GetName()));
 
@@ -64,7 +65,7 @@ AMainCharacter::AMainCharacter() {
 
 	// ------ [Inventory Component] ------
 	//#include "Character/InventoryComponent.h"
-	//class UInventoryComponent* Inventory = CreateDefaultSubobject<UInventoryComponent>(TEXT("InventoryComponent"));
+	InventorySystem = CreateDefaultSubobject<UInventorySystemComponent>(TEXT("InventoryComponent"));
 
 
 	// ------ [Ability System Component] ------
@@ -89,17 +90,25 @@ void AMainCharacter::BeginPlay() {
 				GetMesh()->SetAnimInstanceClass(MainAnimation->GetAnimBlueprintGeneratedClass());
 		}
 
-		// Adding Crosshair Widget to the player
+
+		// =================== TEST ===================
+		//! @note: This is inside the BeginPlay()
+		//! @note: Make sure to import the library Example -> #include "Widgets/InventoryWidget.h"
+		// Adding UI  Widget to the player
 		class UWorld* World = Super::GetWorld();
 		if (World != NULL) {
 			class APlayerController* playerController = Cast<APlayerController>(GetController());
 			if (playerController != NULL) {
-				CrosshairWidget = CreateWidget<UAimSystemComponent>(playerController, UAimSystemComponent::StaticClass());
-				if (CrosshairWidget != NULL) {
-					CrosshairWidget->AddToViewport();
-				}
-			}
-
+				const FString PATH = "/Game/InventoryWidgetBP.InventoryWidgetBP_C";
+				const TSubclassOf<UUserWidget> INVENTORY_WIDGET = LoadClass<UUserWidget>(GetWorld(), *PATH);
+				if (INVENTORY_WIDGET) {
+					class UInventoryWidget* child = CreateWidget<UInventoryWidget>(playerController, INVENTORY_WIDGET);
+					if (child != NULL) {
+						child->AddToViewport();
+						GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Working = TRUE"));
+					}				
+				}		
+			}		
 		}
 
 	}

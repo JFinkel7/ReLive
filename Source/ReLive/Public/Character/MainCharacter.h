@@ -4,7 +4,6 @@
 
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
-#include "Particles/ParticleSystemComponent.h" // New 
 #include "Character/AimSystemComponent.h" 
 #include "Components/CapsuleComponent.h" 
 #include "Components/ArrowComponent.h" 
@@ -36,9 +35,17 @@ class RELIVE_API AMainCharacter : public ACharacter {
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 		class UAimSystemComponent* CrosshairWidget;
 
+	//! @brief: Create a Inventory Component  
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
+	class UInventorySystemComponent* InventorySystem;
+
 public:
 	//! @brief: Sets default values for this character's properties
 	AMainCharacter();
+
+
+	
+
 
 protected:
 	//! @brief: Called when the game starts or when spawned
